@@ -3,9 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Profit Loss Calculator</title>
+    <title>Crypto Profit/Loss Calculator</title>
 </head>
 <body>
-    
+    <h2>Crypto Profit/Loss Calculator</h2>
+    <table id="cryptoTable">
+        <tr>
+            <th>Asset</th>
+            <th>Investment ($)</th>
+            <th>When did you buy?</th>
+            <th>When did you Sell?</th>
+            <th>Profit/Loss</th>
+        </tr>
+        <tr class="cryptoRow">
+            <td>
+                <select class="crypto">
+                    <option value="bitcoin">Bitcoin</option>
+                    <option value="ethereum">Ethereum</option>
+                    <option value="solana">Solana</option>
+                </select>
+            </td>
+            <td><input type="number" class="investment" placeholder="Amount in USD"></td>
+            <td>
+                <select class="buyTime">
+                    <option value="7">Last week</option>
+                    <option value="14">Two weeks ago</option>
+                    <option value="21">Three weeks ago</option>
+                    <option value="30">Last Month</option>
+                    <option value="60">2 Months Ago</option>
+                    <option value="90">3 Months Ago</option>
+                    <option value="120">4 Months Ago</option>
+                    <option value="150">5 Months Ago</option>
+                    <option value="180">6 Months Ago</option>
+                    <option value="210">7 Months Ago</option>
+                    <option value="240">8 Months Ago</option>
+                    <option value="270">9 Months Ago</option>
+                    <option value="300">10 Months Ago</option>
+                    <option value="330">11 Months Ago</option>
+                    <option value="365">More then 1 Year Ago</option>
+                </select>
+            </td>
+            <td>
+                <select class="sellTime">
+                    <option value="0">Still Holding</option>
+                    <option value="7">Last week</option>
+                    <option value="14">Two weeks ago</option>
+                    <option value="21">Three weeks ago</option>
+                    <option value="30">Last Month</option>
+                    <option value="60">2 Months Ago</option>
+                    <option value="90">3 Months Ago</option>
+                    <option value="120">4 Months Ago</option>
+                    <option value="150">5 Months Ago</option>
+                    <option value="180">6 Months Ago</option>
+                    <option value="210">7 Months Ago</option>
+                    <option value="240">8 Months Ago</option>
+                    <option value="270">9 Months Ago</option>
+                    <option value="300">10 Months Ago</option>
+                    <option value="330">11 Months Ago</option>
+                    <option value="365">More then 1 Year Ago</option>
+                </select>
+            </td>
+            <td class="profitLoss">-</td>
+        </tr>
+    </table>
+    <button onclick="addRow()">+ Add More</button>
+    <button onclick="calculateProfit()">Calculate</button>
+
+    <h3>Total Portfolio Profit/Loss: <span id="totalProfitLoss">-</span></h3>
+    <script src="assets/js/script.js"></script>
 </body>
 </html>
