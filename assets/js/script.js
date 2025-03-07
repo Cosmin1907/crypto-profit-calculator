@@ -5,6 +5,13 @@ function addRow() {
     let table = document.getElementById("cryptoTable");
     let row = table.insertRow(-1);
     row.innerHTML = table.rows[1].innerHTML;
+
+    // Attach event listener to the new dropdown
+    let newSelect = row.querySelector(".crypto-select");
+    newSelect.addEventListener("input", filterCryptoOptions);
+
+    // Populate the new dropdown with coins
+    populateCryptoSelect(newSelect);
 }
 
 // Function to get average buy price from historical data
@@ -31,7 +38,7 @@ async function calculateProfit() {
     let totalProfitLoss = 0;
 
     for (let row of rows) {
-        let asset = row.querySelector(".crypto").value;
+        let asset = row.querySelector(".crypto-select").value;
         let investment = parseFloat(row.querySelector(".investment").value);
         let buyTime = parseInt(row.querySelector(".buyTime").value);
         let sellTime = parseInt(row.querySelector(".sellTime").value);
@@ -50,3 +57,72 @@ async function calculateProfit() {
 
     document.getElementById("totalProfitLoss").innerText = `$${totalProfitLoss.toFixed(2)}`;
 }
+
+// Function to fetch all coins from CoinGecko
+async function fetchCoinList() {
+    const url = `${API_BASE}/coins/markets?vs_currency=usd`;
+    const response = await fetch(url);
+    const coins = await response.json();
+
+    return coins.map(coin => ({
+        id: coin.id,
+        name: coin.name,
+        symbol: coin.symbol.toUpperCase()
+    }));
+}
+
+// Function to populate the dropdown with the coin list
+async function populateCryptoSelect(selectElement = null) {
+    const coinList = await fetchCoinList();
+
+    // If a specific select element is provided, populate only that one
+    if (selectElement) {
+        selectElement.innerHTML = "<option value='' disabled selected>Select Cryptocurrency</option>";
+        coinList.forEach(coin => {
+            const option = document.createElement("option");
+            option.value = coin.id;
+            option.textContent = `${coin.name} (${coin.symbol})`;
+            selectElement.appendChild(option);
+        });
+    } else {
+        // Otherwise, populate all select elements
+        const selects = document.querySelectorAll(".crypto-select");
+        selects.forEach(select => {
+            select.innerHTML = "<option value='' disabled selected>Select Cryptocurrency</option>";
+            coinList.forEach(coin => {
+                const option = document.createElement("option");
+                option.value = coin.id;
+                option.textContent = `${coin.name} (${coin.symbol})`;
+                select.appendChild(option);
+            });
+        });
+    }
+}
+
+// Function to filter the options based on user input
+function filterCryptoOptions(event) {
+    const query = event.target.value.toUpperCase();
+    const options = event.target.querySelectorAll("option");
+
+    options.forEach(option => {
+        const text = option.textContent.toUpperCase();
+        if (text.includes(query)) {
+            option.style.display = "";
+        } else {
+            option.style.display = "none";
+        }
+    });
+}
+
+// Wait for the DOM to be fully loaded before running the script
+window.onload = async function () {
+    await populateCryptoSelect();  // Populate the dropdown with coins
+
+    // Get all dropdown elements by their class
+    const selects = document.querySelectorAll(".crypto-select");
+
+    // Add an event listener to each dropdown for filtering options
+    selects.forEach(select => {
+        select.addEventListener("input", filterCryptoOptions);
+    });
+};
