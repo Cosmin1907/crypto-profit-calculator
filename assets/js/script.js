@@ -5,6 +5,10 @@ function addRow() {
     let table = document.getElementById("cryptoTable");
     let row = table.insertRow(-1);
     row.innerHTML = table.rows[1].innerHTML;
+    row.classList.add("cryptoRow"); // Add the cryptoRow class to the new row
+
+    // Clear the profit/loss field for the new row
+    row.querySelector(".profitLoss").innerText = "-";
 
     // Attach event listener to the new dropdown
     let newSelect = row.querySelector(".crypto-select");
