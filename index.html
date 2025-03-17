@@ -8,64 +8,31 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="container">
-    <h2 class="my-4">Crypto Profit/Loss Calculator</h2>
+    <h1 class="my-4">Crypto Profit/Loss Calculator</h1>
+
+    <h2 class="my-4">How does your portfolio look</h2>
     <table id="cryptoTable" class="table table-bordered">
         <thead>
             <tr>
                 <th>Asset</th>
                 <th>Investment ($)</th>
-                <th>When did you buy?</th>
-                <th>When did you Sell?</th>
+                <th>Buy Price ($)</th>
+                <th>Sell Price ($)</th>
+                <th>Still Holding</th>
                 <th>Profit/Loss</th>
             </tr>
         </thead>
         <tbody>
             <tr class="cryptoRow">
                 <td>
-                    <select class="crypto-select form-control">
+                    <select class="crypto-select form-control" onclick="populateCryptoSelect(this)">
                         <!-- Options will be populated dynamically -->
                     </select>
                 </td>
                 <td><input type="number" class="investment form-control" placeholder="Amount in USD"></td>
-                <td>
-                    <select class="buyTime form-control">
-                        <option value="7">Last week</option>
-                        <option value="14">Two weeks ago</option>
-                        <option value="21">Three weeks ago</option>
-                        <option value="30">Last Month</option>
-                        <option value="60">2 Months Ago</option>
-                        <option value="90">3 Months Ago</option>
-                        <option value="120">4 Months Ago</option>
-                        <option value="150">5 Months Ago</option>
-                        <option value="180">6 Months Ago</option>
-                        <option value="210">7 Months Ago</option>
-                        <option value="240">8 Months Ago</option>
-                        <option value="270">9 Months Ago</option>
-                        <option value="300">10 Months Ago</option>
-                        <option value="330">11 Months Ago</option>
-                        <option value="365">More than 1 Year Ago</option>
-                    </select>
-                </td>
-                <td>
-                    <select class="sellTime form-control">
-                        <option value="0">Still Holding</option>
-                        <option value="7">Last week</option>
-                        <option value="14">Two weeks ago</option>
-                        <option value="21">Three weeks ago</option>
-                        <option value="30">Last Month</option>
-                        <option value="60">2 Months Ago</option>
-                        <option value="90">3 Months Ago</option>
-                        <option value="120">4 Months Ago</option>
-                        <option value="150">5 Months Ago</option>
-                        <option value="180">6 Months Ago</option>
-                        <option value="210">7 Months Ago</option>
-                        <option value="240">8 Months Ago</option>
-                        <option value="270">9 Months Ago</option>
-                        <option value="300">10 Months Ago</option>
-                        <option value="330">11 Months Ago</option>
-                        <option value="365">More than 1 Year Ago</option>
-                    </select>
-                </td>
+                <td><input type="number" class="buyPrice form-control" placeholder="Buy Price in USD"></td>
+                <td><input type="number" class="sellPrice form-control" placeholder="Sell Price in USD"></td>
+                <td><input type="checkbox" class="stillHolding form-control" onchange="toggleSellFields(this)"></td>
                 <td class="profitLoss">-</td>
             </tr>
         </tbody>
@@ -78,7 +45,7 @@
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
 </html>

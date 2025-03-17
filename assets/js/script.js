@@ -1,39 +1,64 @@
 const API_BASE = "https://api.coingecko.com/api/v3";
+let localData = {}; // Object to store the fetched data
+let coinList = []; // List to store the fetched coin list
+
+// Function to fetch data periodically and store it locally
+async function fetchDataPeriodically() {
+    const url = `${API_BASE}/coins/markets?vs_currency=usd`;
+    const response = await fetch(url);
+    const coins = await response.json();
+
+    localData = coins.reduce((acc, coin) => {
+        acc[coin.id] = {
+            currentPrice: coin.current_price,
+        };
+        return acc;
+    }, {});
+
+    console.log("Data fetched and stored locally:", localData);
+}
+
+// Fetch data every 10 minutes (600000 milliseconds)
+setInterval(fetchDataPeriodically, 600000);
+fetchDataPeriodically(); // Initial fetch
 
 // Function to add more rows for multiple assets
 function addRow() {
     let table = document.getElementById("cryptoTable");
     let row = table.insertRow(-1);
-    row.innerHTML = table.rows[1].innerHTML;
+    row.innerHTML = `
+        <td>
+            <select class="crypto-select form-control" onclick="populateCryptoSelect(this)">
+                <!-- Options will be populated dynamically -->
+            </select>
+        </td>
+        <td><input type="number" class="investment form-control" placeholder="Amount in USD"></td>
+        <td><input type="number" class="buyPrice form-control" placeholder="Buy Price in USD"></td>
+        <td><input type="number" class="sellPrice form-control" placeholder="Sell Price in USD"></td>
+        <td><input type="checkbox" class="stillHolding form-control" onchange="toggleSellFields(this)"></td>
+        <td class="profitLoss">-</td>
+        <td><button class="btn btn-danger" onclick="removeRow(this)">X</button></td>
+    `;
     row.classList.add("cryptoRow"); // Add the cryptoRow class to the new row
-
-    // Clear the profit/loss field for the new row
-    row.querySelector(".profitLoss").innerText = "-";
 
     // Attach event listener to the new dropdown
     let newSelect = row.querySelector(".crypto-select");
+    newSelect.addEventListener("click", () => populateCryptoSelect(newSelect));
     newSelect.addEventListener("input", filterCryptoOptions);
 
     // Populate the new dropdown with coins
     populateCryptoSelect(newSelect);
 }
 
-// Function to get average buy price from historical data
-async function getAvgBuyPrice(asset, daysAgo) {
-    let url = `${API_BASE}/coins/${asset}/market_chart?vs_currency=usd&days=${daysAgo}`;
-    let response = await fetch(url);
-    let data = await response.json();
-    
-    let prices = data.prices.map(p => p[1]);
-    return prices.reduce((sum, p) => sum + p, 0) / prices.length; // Average price
+// Function to remove a row
+function removeRow(button) {
+    const row = button.closest("tr");
+    row.remove();
 }
 
-// Function to get the latest price of an asset
-async function getCurrentPrice(asset) {
-    let url = `${API_BASE}/simple/price?ids=${asset}&vs_currencies=usd`;
-    let response = await fetch(url);
-    let data = await response.json();
-    return data[asset].usd;
+// Function to get the latest price of an asset from local data
+function getCurrentPriceFromLocalData(asset) {
+    return localData[asset]?.currentPrice || 0;
 }
 
 // Function to calculate profit/loss
@@ -44,13 +69,20 @@ async function calculateProfit() {
     for (let row of rows) {
         let asset = row.querySelector(".crypto-select").value;
         let investment = parseFloat(row.querySelector(".investment").value);
-        let buyTime = parseInt(row.querySelector(".buyTime").value);
-        let sellTime = parseInt(row.querySelector(".sellTime").value);
+        let buyPrice = parseFloat(row.querySelector(".buyPrice").value);
+        let sellPrice = parseFloat(row.querySelector(".sellPrice").value);
+        let stillHolding = row.querySelector(".stillHolding").checked;
         
         if (isNaN(investment) || investment <= 0) continue;
 
-        let buyPrice = await getAvgBuyPrice(asset, buyTime);
-        let sellPrice = sellTime === 0 ? await getCurrentPrice(asset) : await getAvgBuyPrice(asset, sellTime);
+        if (stillHolding) {
+            sellPrice = getCurrentPriceFromLocalData(asset);
+        }
+
+        if (buyPrice <= 0 || sellPrice <= 0) {
+            row.querySelector(".profitLoss").innerText = "Invalid price data";
+            continue;
+        }
 
         let quantity = investment / buyPrice;
         let profitLoss = (sellPrice - buyPrice) * quantity;
@@ -68,7 +100,7 @@ async function fetchCoinList() {
     const response = await fetch(url);
     const coins = await response.json();
 
-    return coins.map(coin => ({
+    coinList = coins.map(coin => ({
         id: coin.id,
         name: coin.name,
         symbol: coin.symbol.toUpperCase()
@@ -76,31 +108,20 @@ async function fetchCoinList() {
 }
 
 // Function to populate the dropdown with the coin list
-async function populateCryptoSelect(selectElement = null) {
-    const coinList = await fetchCoinList();
+function populateCryptoSelect(selectElement = null) {
+    if (!selectElement) return; // Ensure selectElement is not null
+
+    const selectedValue = selectElement.value; // Store the current selected value
 
     // If a specific select element is provided, populate only that one
-    if (selectElement) {
-        selectElement.innerHTML = "<option value='' disabled selected>Select Cryptocurrency</option>";
-        coinList.forEach(coin => {
-            const option = document.createElement("option");
-            option.value = coin.id;
-            option.textContent = `${coin.name} (${coin.symbol})`;
-            selectElement.appendChild(option);
-        });
-    } else {
-        // Otherwise, populate all select elements
-        const selects = document.querySelectorAll(".crypto-select");
-        selects.forEach(select => {
-            select.innerHTML = "<option value='' disabled selected>Select Cryptocurrency</option>";
-            coinList.forEach(coin => {
-                const option = document.createElement("option");
-                option.value = coin.id;
-                option.textContent = `${coin.name} (${coin.symbol})`;
-                select.appendChild(option);
-            });
-        });
-    }
+    selectElement.innerHTML = "<option value='' disabled>Select Cryptocurrency</option>";
+    coinList.forEach(coin => {
+        const option = document.createElement("option");
+        option.value = coin.id;
+        option.textContent = `${coin.name} (${coin.symbol})`;
+        selectElement.appendChild(option);
+    });
+    selectElement.value = selectedValue; // Restore the selected value
 }
 
 // Function to filter the options based on user input
@@ -118,8 +139,22 @@ function filterCryptoOptions(event) {
     });
 }
 
+// Function to toggle the sell price field based on the still holding checkbox
+function toggleSellFields(checkbox) {
+    const row = checkbox.closest("tr");
+    const sellPrice = row.querySelector(".sellPrice");
+
+    if (checkbox.checked) {
+        sellPrice.disabled = true;
+        sellPrice.value = "";
+    } else {
+        sellPrice.disabled = false;
+    }
+}
+
 // Wait for the DOM to be fully loaded before running the script
 window.onload = async function () {
+    await fetchCoinList();         // Fetch the coin list once
     await populateCryptoSelect();  // Populate the dropdown with coins
 
     // Get all dropdown elements by their class
@@ -127,6 +162,7 @@ window.onload = async function () {
 
     // Add an event listener to each dropdown for filtering options
     selects.forEach(select => {
+        select.addEventListener("click", () => populateCryptoSelect(select));
         select.addEventListener("input", filterCryptoOptions);
     });
 };
