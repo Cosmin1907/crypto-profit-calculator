@@ -20,20 +20,27 @@
                 <th>Sell Price ($)</th>
                 <th>Still Holding</th>
                 <th>Profit/Loss</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             <tr class="cryptoRow">
-                <td>
+                <td rowspan="2">
                     <select class="crypto-select form-control" onclick="populateCryptoSelect(this)">
+                        <option value="" disabled selected>Select Cryptocurrency</option>
                         <!-- Options will be populated dynamically -->
                     </select>
                 </td>
-                <td><input type="number" class="investment form-control" placeholder="Amount in USD"></td>
+                <td rowspan="2"><input type="number" class="investment form-control" placeholder="Amount in USD"></td>
                 <td><input type="number" class="buyPrice form-control" placeholder="Buy Price in USD"></td>
                 <td><input type="number" class="sellPrice form-control" placeholder="Sell Price in USD"></td>
-                <td><input type="checkbox" class="stillHolding form-control" onchange="toggleSellFields(this)"></td>
-                <td class="profitLoss">-</td>
+                <td rowspan="2"><input type="checkbox" class="stillHolding form-control" onchange="toggleSellFields(this)"></td>
+                <td rowspan="2" class="profitLoss">-</td>
+                <td rowspan="2"><button class="btn btn-danger" onclick="removeRow(this)">X</button></td>
+            </tr>
+            <tr class="cryptoRow">
+                <td><input type="number" class="investmentFee form-control" placeholder="Investment Fee in USD" value="0"></td>
+                <td><input type="number" class="exitFee form-control" placeholder="Exit Fee in USD" value="0"></td>
             </tr>
         </tbody>
     </table>

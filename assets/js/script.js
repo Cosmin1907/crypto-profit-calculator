@@ -27,19 +27,28 @@ function addRow() {
     let table = document.getElementById("cryptoTable");
     let row = table.insertRow(-1);
     row.innerHTML = `
-        <td>
+        <td rowspan="2">
             <select class="crypto-select form-control" onclick="populateCryptoSelect(this)">
+                <option value="" disabled selected>Select Cryptocurrency</option>
                 <!-- Options will be populated dynamically -->
             </select>
         </td>
-        <td><input type="number" class="investment form-control" placeholder="Amount in USD"></td>
+        <td rowspan="2"><input type="number" class="investment form-control" placeholder="Amount in USD"></td>
         <td><input type="number" class="buyPrice form-control" placeholder="Buy Price in USD"></td>
         <td><input type="number" class="sellPrice form-control" placeholder="Sell Price in USD"></td>
-        <td><input type="checkbox" class="stillHolding form-control" onchange="toggleSellFields(this)"></td>
-        <td class="profitLoss">-</td>
-        <td><button class="btn btn-danger" onclick="removeRow(this)">X</button></td>
+        <td rowspan="2"><input type="checkbox" class="stillHolding form-control" onchange="toggleSellFields(this)"></td>
+        <td rowspan="2" class="profitLoss">-</td>
+        <td rowspan="2"><button class="btn btn-danger" onclick="removeRow(this)">X</button></td>
     `;
     row.classList.add("cryptoRow"); // Add the cryptoRow class to the new row
+
+    // Add a second row for the fees
+    let feeRow = table.insertRow(-1);
+    feeRow.classList.add("cryptoRow");
+    feeRow.innerHTML = `
+        <td><input type="number" class="investmentFee form-control" placeholder="Investment Fee in USD" value="0"></td>
+        <td><input type="number" class="exitFee form-control" placeholder="Exit Fee in USD" value="0"></td>
+    `;
 
     // Attach event listener to the new dropdown
     let newSelect = row.querySelector(".crypto-select");
@@ -53,6 +62,10 @@ function addRow() {
 // Function to remove a row
 function removeRow(button) {
     const row = button.closest("tr");
+    const nextRow = row.nextElementSibling;
+    if (nextRow && nextRow.classList.contains("cryptoRow")) {
+        nextRow.remove();
+    }
     row.remove();
 }
 
@@ -66,11 +79,15 @@ async function calculateProfit() {
     let rows = document.querySelectorAll(".cryptoRow");
     let totalProfitLoss = 0;
 
-    for (let row of rows) {
+    for (let i = 0; i < rows.length; i += 2) {
+        let row = rows[i];
+        let feeRow = rows[i + 1];
         let asset = row.querySelector(".crypto-select").value;
         let investment = parseFloat(row.querySelector(".investment").value);
         let buyPrice = parseFloat(row.querySelector(".buyPrice").value);
         let sellPrice = parseFloat(row.querySelector(".sellPrice").value);
+        let investmentFee = parseFloat(feeRow.querySelector(".investmentFee").value) || 0;
+        let exitFee = parseFloat(feeRow.querySelector(".exitFee").value) || 0;
         let stillHolding = row.querySelector(".stillHolding").checked;
         
         if (isNaN(investment) || investment <= 0) continue;
@@ -85,7 +102,7 @@ async function calculateProfit() {
         }
 
         let quantity = investment / buyPrice;
-        let profitLoss = (sellPrice - buyPrice) * quantity;
+        let profitLoss = (sellPrice - buyPrice) * quantity - investmentFee - exitFee;
         
         totalProfitLoss += profitLoss;
         row.querySelector(".profitLoss").innerText = `$${profitLoss.toFixed(2)}`;
