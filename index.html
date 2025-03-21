@@ -6,13 +6,15 @@
     <title>Crypto Profit/Loss Calculator</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <body class="container">
     <h1 class="my-4">Crypto Profit/Loss Calculator</h1>
 
     <h2 class="my-4">How does your portfolio look</h2>
     <div id="cryptoContainer">
-        <div class="cryptoRow row mb-2">
+        <div class="cryptoRow row mb-2 position-relative">
             <div class="col-12 col-md-2">
                 <label for="cryptoSelect">Asset</label>
                 <select id="cryptoSelect" class="crypto-select form-control" onclick="populateCryptoSelect(this)">
@@ -40,6 +42,10 @@
                 <label for="profitLoss">Profit/Loss</label>
                 <div id="profitLoss" class="profitLoss">-</div>
             </div>
+            <div class="col-12 col-md-1 position-relative">
+                <label>&nbsp;</label>
+                <button id="xbutton" class="btn btn-danger form-control" onclick="removeRow(this)">X</button>
+            </div>
         </div>
         <div class="cryptoRow row mb-2">
             <div class="col-12 col-md-2 offset-md-2">
@@ -49,10 +55,6 @@
             <div class="col-12 col-md-2">
                 <label for="exitFee">Exit Fee (%)</label>
                 <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0">
-            </div>
-            <div class="col-12 col-md-1">
-                <label>&nbsp;</label>
-                <button class="btn btn-danger form-control" onclick="removeRow(this)">X</button>
             </div>
         </div>
     </div>

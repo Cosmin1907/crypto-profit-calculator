@@ -1,0 +1,41 @@
+/* Custom CSS for Crypto Profit/Loss Calculator */
+
+/* Style for the main container */
+body.container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the headers */
+h1, h2 {
+    color: #343a40;
+}
+
+/* Style for the buttons */
+button.btn {
+    font-weight: bold;
+}
+
+/* Style for the profit/loss display */
+.profitLoss {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* Style for the total portfolio section */
+h3 {
+    margin-top: 20px;
+}
+
+p {
+    font-size: 1.1em;
+}
+
+/* Custom style for the remove button */
+#xbutton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}

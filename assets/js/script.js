@@ -56,6 +56,10 @@ function addRow() {
             <label for="profitLoss">Profit/Loss</label>
             <div id="profitLoss" class="profitLoss text-muted">-</div>
         </div>
+        <div class="col-12 col-md-1">
+            <label>&nbsp;</label>
+            <button class="btn btn-danger form-control" onclick="removeRow(this)">X</button>
+        </div>
     `;
     container.appendChild(row);
 
@@ -69,10 +73,6 @@ function addRow() {
         <div class="col-12 col-md-2">
             <label for="exitFee">Exit Fee (%)</label>
             <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0">
-        </div>
-        <div class="col-12 col-md-1">
-            <label>&nbsp;</label>
-            <button class="btn btn-danger form-control" onclick="removeRow(this)">X</button>
         </div>
     `;
     container.appendChild(feeRow);
