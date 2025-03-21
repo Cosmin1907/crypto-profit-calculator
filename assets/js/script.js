@@ -24,31 +24,58 @@ fetchDataPeriodically(); // Initial fetch
 
 // Function to add more rows for multiple assets
 function addRow() {
-    let table = document.getElementById("cryptoTable");
-    let row = table.insertRow(-1);
+    let container = document.getElementById("cryptoContainer");
+
+    let row = document.createElement("div");
+    row.className = "cryptoRow row mb-2";
     row.innerHTML = `
-        <td rowspan="2">
-            <select class="crypto-select form-control" onclick="populateCryptoSelect(this)">
+        <div class="col-12 col-md-2">
+            <label for="cryptoSelect">Asset</label>
+            <select id="cryptoSelect" class="crypto-select form-control" onclick="populateCryptoSelect(this)">
                 <option value="" disabled selected>Select Cryptocurrency</option>
                 <!-- Options will be populated dynamically -->
             </select>
-        </td>
-        <td rowspan="2"><input type="number" class="investment form-control" placeholder="Amount in USD"></td>
-        <td><input type="number" class="buyPrice form-control" placeholder="Buy Price in USD"></td>
-        <td><input type="number" class="sellPrice form-control" placeholder="Sell Price in USD"></td>
-        <td rowspan="2"><input type="checkbox" class="stillHolding form-control" onchange="toggleSellFields(this)"></td>
-        <td rowspan="2" class="profitLoss">-</td>
-        <td rowspan="2"><button class="btn btn-danger" onclick="removeRow(this)">X</button></td>
+        </div>
+        <div class="col-12 col-md-2">
+            <label for="investment">Investment ($)</label>
+            <input type="number" id="investment" class="investment form-control" placeholder="Amount in USD">
+        </div>
+        <div class="col-12 col-md-2">
+            <label for="buyPrice">Buy Price ($)</label>
+            <input type="number" id="buyPrice" class="buyPrice form-control" placeholder="Buy Price in USD">
+        </div>
+        <div class="col-12 col-md-2">
+            <label for="sellPrice">Sell Price ($)</label>
+            <input type="number" id="sellPrice" class="sellPrice form-control" placeholder="Sell Price in USD">
+        </div>
+        <div class="col-12 col-md-1">
+            <label for="stillHolding">Still Holding</label>
+            <input type="checkbox" id="stillHolding" class="stillHolding form-control" onchange="toggleSellFields(this)">
+        </div>
+        <div class="col-12 col-md-2">
+            <label for="profitLoss">Profit/Loss</label>
+            <div id="profitLoss" class="profitLoss text-muted">-</div>
+        </div>
+        <div class="col-12 col-md-1">
+            <label>&nbsp;</label>
+            <button class="btn btn-danger form-control" onclick="removeRow(this)">X</button>
+        </div>
     `;
-    row.classList.add("cryptoRow"); // Add the cryptoRow class to the new row
+    container.appendChild(row);
 
-    // Add a second row for the fees
-    let feeRow = table.insertRow(-1);
-    feeRow.classList.add("cryptoRow");
+    let feeRow = document.createElement("div");
+    feeRow.className = "cryptoRow row mb-2";
     feeRow.innerHTML = `
-        <td><input type="number" class="investmentFee form-control" placeholder="Investment Fee in USD" value="0"></td>
-        <td><input type="number" class="exitFee form-control" placeholder="Exit Fee in USD" value="0"></td>
+        <div class="col-12 col-md-2 offset-md-2">
+            <label for="investmentFee">Investment Fee ($)</label>
+            <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in USD" value="0">
+        </div>
+        <div class="col-12 col-md-2">
+            <label for="exitFee">Exit Fee ($)</label>
+            <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in USD" value="0">
+        </div>
     `;
+    container.appendChild(feeRow);
 
     // Attach event listener to the new dropdown
     let newSelect = row.querySelector(".crypto-select");
@@ -61,7 +88,7 @@ function addRow() {
 
 // Function to remove a row
 function removeRow(button) {
-    const row = button.closest("tr");
+    const row = button.closest(".cryptoRow");
     const nextRow = row.nextElementSibling;
     if (nextRow && nextRow.classList.contains("cryptoRow")) {
         nextRow.remove();
@@ -98,6 +125,8 @@ async function calculateProfit() {
 
         if (buyPrice <= 0 || sellPrice <= 0) {
             row.querySelector(".profitLoss").innerText = "Invalid price data";
+            row.querySelector(".profitLoss").classList.remove("text-success", "text-danger");
+            row.querySelector(".profitLoss").classList.add("text-muted");
             continue;
         }
 
@@ -106,9 +135,26 @@ async function calculateProfit() {
         
         totalProfitLoss += profitLoss;
         row.querySelector(".profitLoss").innerText = `$${profitLoss.toFixed(2)}`;
+        row.querySelector(".profitLoss").classList.remove("text-muted");
+        if (profitLoss >= 0) {
+            row.querySelector(".profitLoss").classList.add("text-success");
+            row.querySelector(".profitLoss").classList.remove("text-danger");
+        } else {
+            row.querySelector(".profitLoss").classList.add("text-danger");
+            row.querySelector(".profitLoss").classList.remove("text-success");
+        }
     }
 
-    document.getElementById("totalProfitLoss").innerText = `$${totalProfitLoss.toFixed(2)}`;
+    let totalProfitLossElement = document.getElementById("totalProfitLoss");
+    totalProfitLossElement.innerText = `$${totalProfitLoss.toFixed(2)}`;
+    totalProfitLossElement.classList.remove("text-muted");
+    if (totalProfitLoss >= 0) {
+        totalProfitLossElement.classList.add("text-success");
+        totalProfitLossElement.classList.remove("text-danger");
+    } else {
+        totalProfitLossElement.classList.add("text-danger");
+        totalProfitLossElement.classList.remove("text-success");
+    }
 }
 
 // Function to fetch all coins from CoinGecko
@@ -158,7 +204,7 @@ function filterCryptoOptions(event) {
 
 // Function to toggle the sell price field based on the still holding checkbox
 function toggleSellFields(checkbox) {
-    const row = checkbox.closest("tr");
+    const row = checkbox.closest(".cryptoRow");
     const sellPrice = row.querySelector(".sellPrice");
 
     if (checkbox.checked) {

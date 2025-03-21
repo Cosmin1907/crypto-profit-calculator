@@ -11,43 +11,55 @@
     <h1 class="my-4">Crypto Profit/Loss Calculator</h1>
 
     <h2 class="my-4">How does your portfolio look</h2>
-    <table id="cryptoTable" class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Asset</th>
-                <th>Investment ($)</th>
-                <th>Buy Price ($)</th>
-                <th>Sell Price ($)</th>
-                <th>Still Holding</th>
-                <th>Profit/Loss</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="cryptoRow">
-                <td rowspan="2">
-                    <select class="crypto-select form-control" onclick="populateCryptoSelect(this)">
-                        <option value="" disabled selected>Select Cryptocurrency</option>
-                        <!-- Options will be populated dynamically -->
-                    </select>
-                </td>
-                <td rowspan="2"><input type="number" class="investment form-control" placeholder="Amount in USD"></td>
-                <td><input type="number" class="buyPrice form-control" placeholder="Buy Price in USD"></td>
-                <td><input type="number" class="sellPrice form-control" placeholder="Sell Price in USD"></td>
-                <td rowspan="2"><input type="checkbox" class="stillHolding form-control" onchange="toggleSellFields(this)"></td>
-                <td rowspan="2" class="profitLoss">-</td>
-                <td rowspan="2"><button class="btn btn-danger" onclick="removeRow(this)">X</button></td>
-            </tr>
-            <tr class="cryptoRow">
-                <td><input type="number" class="investmentFee form-control" placeholder="Investment Fee in USD" value="0"></td>
-                <td><input type="number" class="exitFee form-control" placeholder="Exit Fee in USD" value="0"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="cryptoContainer">
+        <div class="cryptoRow row mb-2">
+            <div class="col-12 col-md-2">
+                <label for="cryptoSelect">Asset</label>
+                <select id="cryptoSelect" class="crypto-select form-control" onclick="populateCryptoSelect(this)">
+                    <option value="" disabled selected>Select Cryptocurrency</option>
+                    <!-- Options will be populated dynamically -->
+                </select>
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="investment">Investment ($)</label>
+                <input type="number" id="investment" class="investment form-control" placeholder="Amount in USD">
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="buyPrice">Buy Price ($)</label>
+                <input type="number" id="buyPrice" class="buyPrice form-control" placeholder="Buy Price in USD">
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="sellPrice">Sell Price ($)</label>
+                <input type="number" id="sellPrice" class="sellPrice form-control" placeholder="Sell Price in USD">
+            </div>
+            <div class="col-12 col-md-1">
+                <label for="stillHolding">Still Holding</label>
+                <input type="checkbox" id="stillHolding" class="stillHolding form-control" onchange="toggleSellFields(this)">
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="profitLoss">Profit/Loss</label>
+                <div id="profitLoss" class="profitLoss">-</div>
+            </div>
+            <div class="col-12 col-md-1">
+                <label>&nbsp;</label>
+                <button class="btn btn-danger form-control" onclick="removeRow(this)">X</button>
+            </div>
+        </div>
+        <div class="cryptoRow row mb-2">
+            <div class="col-12 col-md-2 offset-md-2">
+                <label for="investmentFee">Investment Fee ($)</label>
+                <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in USD" value="0">
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="exitFee">Exit Fee ($)</label>
+                <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in USD" value="0">
+            </div>
+        </div>
+    </div>
     <button class="btn btn-primary my-2" onclick="addRow()">+ Add Asset</button>
     <button class="btn btn-success my-2" onclick="calculateProfit()">Calculate</button>
 
-    <h3>Total Portfolio Profit/Loss: <span id="totalProfitLoss">-</span></h3>
+    <h3>Total Portfolio Profit/Loss: <span id="totalProfitLoss" class="text-muted">-</span></h3>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
