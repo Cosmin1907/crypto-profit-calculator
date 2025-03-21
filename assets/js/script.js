@@ -26,59 +26,54 @@ fetchDataPeriodically(); // Initial fetch
 function addRow() {
     let container = document.getElementById("cryptoContainer");
 
-    let row = document.createElement("div");
-    row.className = "cryptoRow row mb-2";
-    row.innerHTML = `
-        <div class="col-12 col-md-2">
-            <label for="cryptoSelect">Asset</label>
-            <select id="cryptoSelect" class="crypto-select form-control" onclick="populateCryptoSelect(this)">
-                <option value="" disabled selected>Select Cryptocurrency</option>
-                <!-- Options will be populated dynamically -->
-            </select>
+    let assetContainer = document.createElement("div");
+    assetContainer.className = "assetContainer";
+    assetContainer.innerHTML = `
+        <div class="cryptoRow row mb-2">
+            <div class="col-12 col-md-2">
+                <label for="cryptoSelect">Asset</label>
+                <select id="cryptoSelect" class="crypto-select form-control" onclick="populateCryptoSelect(this)">
+                    <option value="" disabled selected>Select Cryptocurrency</option>
+                    <!-- Options will be populated dynamically -->
+                </select>
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="investment">Investment ($)</label>
+                <input type="number" id="investment" class="investment form-control" placeholder="Amount in USD">
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="buyPrice">Buy Price ($)</label>
+                <input type="number" id="buyPrice" class="buyPrice form-control" placeholder="Buy Price in USD">
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="sellPrice">Sell Price ($)</label>
+                <input type="number" id="sellPrice" class="sellPrice form-control" placeholder="Sell Price in USD">
+            </div>
+            <div class="col-12 col-md-1">
+                <label for="stillHolding">Still Holding</label>
+                <input type="checkbox" id="stillHolding" class="stillHolding form-control" onchange="toggleSellFields(this)">
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="profitLoss">Profit/Loss</label>
+                <div id="profitLoss" class="profitLoss text-muted">-</div>
+            </div>
+            <button class="xbutton btn btn-danger" onclick="removeRow(this)">X</button>
         </div>
-        <div class="col-12 col-md-2">
-            <label for="investment">Investment ($)</label>
-            <input type="number" id="investment" class="investment form-control" placeholder="Amount in USD">
-        </div>
-        <div class="col-12 col-md-2">
-            <label for="buyPrice">Buy Price ($)</label>
-            <input type="number" id="buyPrice" class="buyPrice form-control" placeholder="Buy Price in USD">
-        </div>
-        <div class="col-12 col-md-2">
-            <label for="sellPrice">Sell Price ($)</label>
-            <input type="number" id="sellPrice" class="sellPrice form-control" placeholder="Sell Price in USD">
-        </div>
-        <div class="col-12 col-md-1">
-            <label for="stillHolding">Still Holding</label>
-            <input type="checkbox" id="stillHolding" class="stillHolding form-control" onchange="toggleSellFields(this)">
-        </div>
-        <div class="col-12 col-md-2">
-            <label for="profitLoss">Profit/Loss</label>
-            <div id="profitLoss" class="profitLoss text-muted">-</div>
-        </div>
-        <div class="col-12 col-md-1">
-            <label>&nbsp;</label>
-            <button class="btn btn-danger form-control" onclick="removeRow(this)">X</button>
-        </div>
-    `;
-    container.appendChild(row);
-
-    let feeRow = document.createElement("div");
-    feeRow.className = "cryptoRow row mb-2";
-    feeRow.innerHTML = `
-        <div class="col-12 col-md-2 offset-md-2">
-            <label for="investmentFee">Investment Fee (%)</label>
-            <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in %" value="0">
-        </div>
-        <div class="col-12 col-md-2">
-            <label for="exitFee">Exit Fee (%)</label>
-            <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0">
+        <div class="cryptoRow row mb-2">
+            <div class="col-12 col-md-2 offset-md-2">
+                <label for="investmentFee">Investment Fee (%)</label>
+                <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in %" value="0">
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="exitFee">Exit Fee (%)</label>
+                <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0">
+            </div>
         </div>
     `;
-    container.appendChild(feeRow);
+    container.appendChild(assetContainer);
 
     // Attach event listener to the new dropdown
-    let newSelect = row.querySelector(".crypto-select");
+    let newSelect = assetContainer.querySelector(".crypto-select");
     newSelect.addEventListener("click", () => populateCryptoSelect(newSelect));
     newSelect.addEventListener("input", filterCryptoOptions);
 
@@ -88,12 +83,8 @@ function addRow() {
 
 // Function to remove a row
 function removeRow(button) {
-    const row = button.closest(".cryptoRow");
-    const nextRow = row.nextElementSibling;
-    if (nextRow && nextRow.classList.contains("cryptoRow")) {
-        nextRow.remove();
-    }
-    row.remove();
+    const assetContainer = button.closest(".assetContainer");
+    assetContainer.remove();
 }
 
 // Function to get the latest price of an asset from local data

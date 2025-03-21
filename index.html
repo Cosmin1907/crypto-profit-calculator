@@ -14,47 +14,46 @@
 
     <h2 class="my-4">How does your portfolio look</h2>
     <div id="cryptoContainer">
-        <div class="cryptoRow row mb-2 position-relative">
-            <div class="col-12 col-md-2">
-                <label for="cryptoSelect">Asset</label>
-                <select id="cryptoSelect" class="crypto-select form-control" onclick="populateCryptoSelect(this)">
-                    <option value="" disabled selected>Select Cryptocurrency</option>
-                    <!-- Options will be populated dynamically -->
-                </select>
+        <div class="assetContainer">
+            <div class="cryptoRow row mb-2">
+                <div class="col-12 col-md-2">
+                    <label for="cryptoSelect">Asset</label>
+                    <select id="cryptoSelect" class="crypto-select form-control" onclick="populateCryptoSelect(this)">
+                        <option value="" disabled selected>Select Cryptocurrency</option>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+                <div class="col-12 col-md-2">
+                    <label for="investment">Investment ($)</label>
+                    <input type="number" id="investment" class="investment form-control" placeholder="Amount in USD">
+                </div>
+                <div class="col-12 col-md-2">
+                    <label for="buyPrice">Buy Price ($)</label>
+                    <input type="number" id="buyPrice" class="buyPrice form-control" placeholder="Buy Price in USD">
+                </div>
+                <div class="col-12 col-md-2">
+                    <label for="sellPrice">Sell Price ($)</label>
+                    <input type="number" id="sellPrice" class="sellPrice form-control" placeholder="Sell Price in USD">
+                </div>
+                <div class="col-12 col-md-1">
+                    <label for="stillHolding">Still Holding</label>
+                    <input type="checkbox" id="stillHolding" class="stillHolding form-control" onchange="toggleSellFields(this)">
+                </div>
+                <div class="col-12 col-md-2">
+                    <label for="profitLoss">Profit/Loss</label>
+                    <div id="profitLoss" class="profitLoss">-</div>
+                </div>
+                <button class="xbutton btn btn-danger" onclick="removeRow(this)">X</button>
             </div>
-            <div class="col-12 col-md-2">
-                <label for="investment">Investment ($)</label>
-                <input type="number" id="investment" class="investment form-control" placeholder="Amount in USD">
-            </div>
-            <div class="col-12 col-md-2">
-                <label for="buyPrice">Buy Price ($)</label>
-                <input type="number" id="buyPrice" class="buyPrice form-control" placeholder="Buy Price in USD">
-            </div>
-            <div class="col-12 col-md-2">
-                <label for="sellPrice">Sell Price ($)</label>
-                <input type="number" id="sellPrice" class="sellPrice form-control" placeholder="Sell Price in USD">
-            </div>
-            <div class="col-12 col-md-1">
-                <label for="stillHolding">Still Holding</label>
-                <input type="checkbox" id="stillHolding" class="stillHolding form-control" onchange="toggleSellFields(this)">
-            </div>
-            <div class="col-12 col-md-2">
-                <label for="profitLoss">Profit/Loss</label>
-                <div id="profitLoss" class="profitLoss">-</div>
-            </div>
-            <div class="col-12 col-md-1 position-relative">
-                <label>&nbsp;</label>
-                <button id="xbutton" class="btn btn-danger form-control" onclick="removeRow(this)">X</button>
-            </div>
-        </div>
-        <div class="cryptoRow row mb-2">
-            <div class="col-12 col-md-2 offset-md-2">
-                <label for="investmentFee">Investment Fee (%)</label>
-                <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in %" value="0">
-            </div>
-            <div class="col-12 col-md-2">
-                <label for="exitFee">Exit Fee (%)</label>
-                <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0">
+            <div class="cryptoRow row mb-2">
+                <div class="col-12 col-md-2 offset-md-2">
+                    <label for="investmentFee">Investment Fee (%)</label>
+                    <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in %" value="0">
+                </div>
+                <div class="col-12 col-md-2">
+                    <label for="exitFee">Exit Fee (%)</label>
+                    <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0">
+                </div>
             </div>
         </div>
     </div>

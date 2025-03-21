@@ -1,11 +1,24 @@
 /* Custom CSS for Crypto Profit/Loss Calculator */
 
 /* Style for the main container */
-body.container {
+#cryptoContainer {
     background-color: #f8f9fa;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    position: relative; /* Ensure the container is positioned relative */
+}
+
+/* Style for each asset container */
+.assetContainer {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    position: relative; /* Ensure the container is positioned relative */
 }
 
 /* Style for the headers */
@@ -34,8 +47,8 @@ p {
 }
 
 /* Custom style for the remove button */
-#xbutton {
+.xbutton {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 5px;
+    right: 10px;
 }
