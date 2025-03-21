@@ -56,10 +56,6 @@ function addRow() {
             <label for="profitLoss">Profit/Loss</label>
             <div id="profitLoss" class="profitLoss text-muted">-</div>
         </div>
-        <div class="col-12 col-md-1">
-            <label>&nbsp;</label>
-            <button class="btn btn-danger form-control" onclick="removeRow(this)">X</button>
-        </div>
     `;
     container.appendChild(row);
 
@@ -67,12 +63,16 @@ function addRow() {
     feeRow.className = "cryptoRow row mb-2";
     feeRow.innerHTML = `
         <div class="col-12 col-md-2 offset-md-2">
-            <label for="investmentFee">Investment Fee ($)</label>
-            <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in USD" value="0">
+            <label for="investmentFee">Investment Fee (%)</label>
+            <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in %" value="0">
         </div>
         <div class="col-12 col-md-2">
-            <label for="exitFee">Exit Fee ($)</label>
-            <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in USD" value="0">
+            <label for="exitFee">Exit Fee (%)</label>
+            <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0">
+        </div>
+        <div class="col-12 col-md-1">
+            <label>&nbsp;</label>
+            <button class="btn btn-danger form-control" onclick="removeRow(this)">X</button>
         </div>
     `;
     container.appendChild(feeRow);
@@ -105,6 +105,9 @@ function getCurrentPriceFromLocalData(asset) {
 async function calculateProfit() {
     let rows = document.querySelectorAll(".cryptoRow");
     let totalProfitLoss = 0;
+    let totalInvestment = 0;
+    let totalFees = 0;
+    let totalHoldings = 0;
 
     for (let i = 0; i < rows.length; i += 2) {
         let row = rows[i];
@@ -113,8 +116,8 @@ async function calculateProfit() {
         let investment = parseFloat(row.querySelector(".investment").value);
         let buyPrice = parseFloat(row.querySelector(".buyPrice").value);
         let sellPrice = parseFloat(row.querySelector(".sellPrice").value);
-        let investmentFee = parseFloat(feeRow.querySelector(".investmentFee").value) || 0;
-        let exitFee = parseFloat(feeRow.querySelector(".exitFee").value) || 0;
+        let investmentFeePercent = parseFloat(feeRow.querySelector(".investmentFee").value) || 0;
+        let exitFeePercent = parseFloat(feeRow.querySelector(".exitFee").value) || 0;
         let stillHolding = row.querySelector(".stillHolding").checked;
         
         if (isNaN(investment) || investment <= 0) continue;
@@ -131,9 +134,15 @@ async function calculateProfit() {
         }
 
         let quantity = investment / buyPrice;
+        let investmentFee = (investment * investmentFeePercent) / 100;
+        let exitFee = (sellPrice * quantity * exitFeePercent) / 100;
         let profitLoss = (sellPrice - buyPrice) * quantity - investmentFee - exitFee;
         
         totalProfitLoss += profitLoss;
+        totalInvestment += investment;
+        totalFees += investmentFee + exitFee;
+        totalHoldings += sellPrice * quantity;
+
         row.querySelector(".profitLoss").innerText = `$${profitLoss.toFixed(2)}`;
         row.querySelector(".profitLoss").classList.remove("text-muted");
         if (profitLoss >= 0) {
@@ -155,6 +164,15 @@ async function calculateProfit() {
         totalProfitLossElement.classList.add("text-danger");
         totalProfitLossElement.classList.remove("text-success");
     }
+
+    let totalInvestmentElement = document.getElementById("totalInvestment");
+    totalInvestmentElement.innerText = `$${totalInvestment.toFixed(2)}`;
+
+    let totalFeesElement = document.getElementById("totalFees");
+    totalFeesElement.innerText = `$${totalFees.toFixed(2)}`;
+
+    let totalHoldingsElement = document.getElementById("totalHoldings");
+    totalHoldingsElement.innerText = `$${totalHoldings.toFixed(2)}`;
 }
 
 // Function to fetch all coins from CoinGecko
