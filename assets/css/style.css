@@ -52,3 +52,24 @@ p {
     top: 5px;
     right: 10px;
 }
+
+/* Adjust Still Holding checkbox alignment */
+.stillHolding {
+    width: auto;
+    height: auto;
+    margin-right: 5px;
+}
+
+#holding-box {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: baseline;
+    justify-content: flex-end;
+}
+
+/* Ensure Profit/Loss is at the end in mobile view */
+@media (max-width: 768px) {
+    .cryptoRow .profitLoss {
+        order: 1; /* Move to the end */
+    }
+}
