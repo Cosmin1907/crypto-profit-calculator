@@ -2,7 +2,7 @@
 
 /* Style for the main container */
 #cryptoContainer {
-    background-color: #f8f9fa;
+    background-color: #e3e4e6;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -13,12 +13,17 @@
 
 /* Style for each asset container */
 .assetContainer {
-    background-color: #ffffff;
+    background-color: #f0f4f8;
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 1rem;
     position: relative; /* Ensure the container is positioned relative */
+}
+
+.card {
+    border-radius: 10px;
+    background-color: #f0f4f8;
 }
 
 /* Style for the headers */
@@ -34,6 +39,12 @@ h1 {
 /* Style for the buttons */
 button.btn {
     font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
 }
 
 /* Style for the profit/loss display */
@@ -82,8 +93,16 @@ p {
 }
 
 /* Ensure Profit/Loss is at the end in mobile view */
-@media (max-width: 768px) {
-    .cryptoRow .profitLoss {
+@media (min-width: 768px) {
+    
+}
+
+@media (min-width: 1024px) {
+    .profitLoss {
         order: 1; /* Move to the end */
+    }
+
+    .buttons {
+        flex-direction: row;
     }
 }

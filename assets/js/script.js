@@ -59,7 +59,7 @@ function addRow() {
             </div>
             <button class="xbutton btn btn-danger" onclick="removeRow(this)">X</button>
         </div>
-        <button id="toggleButton">Add Fees</button>
+        <button id="toggleButton" class="btn btn-outline-info">Add Fees</button>
             
             <div class="cryptoRow row mb-2" id="cryptoRowWrapper">
                 <div class="col-12 col-md-2 offset-md-2">

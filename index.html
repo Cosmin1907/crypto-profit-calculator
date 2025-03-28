@@ -45,7 +45,7 @@
                 </div>
                 <button class="xbutton btn btn-danger" onclick="removeRow(this)">X</button>
             </div>
-            <button id="toggleButton">Add Fees</button>
+            <button id="toggleButton" class="btn btn-outline-info">Add Fees</button>
             
             <!-- Changed the id to 'cryptoRowWrapper' -->
             <div class="cryptoRow row mb-2" id="cryptoRowWrapper">
@@ -61,8 +61,11 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-primary my-2" onclick="addRow()">+ Add Asset</button>
-    <button class="btn btn-success my-2" onclick="calculateProfit()">Calculate</button>
+    <div class="buttons">
+        <button class="btn btn-primary w-100 w-md-auto" onclick="addRow()">+ Add Asset</button>
+        <button class="btn btn-secondary w-100 w-md-auto" onclick="calculateProfit()">Calculate</button>
+    </div>
+    
 
     <div class="card my-4">
         <div class="card-body">
