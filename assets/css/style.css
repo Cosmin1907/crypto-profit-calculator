@@ -26,6 +26,11 @@ h1, h2 {
     color: #343a40;
 }
 
+h1 {
+    font-size: 1.5em;
+    margin-bottom: 1rem;
+}
+
 /* Style for the buttons */
 button.btn {
     font-weight: bold;
@@ -38,9 +43,6 @@ button.btn {
 }
 
 /* Style for the total portfolio section */
-h3 {
-    margin-top: 20px;
-}
 
 p {
     font-size: 1.1em;

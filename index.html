@@ -9,10 +9,10 @@
     <!-- Custom CSS -->
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
+<header>
+    <h1 class="my-4">CryptoProfitLo$$Calculator</h1>
+</header>
 <body class="container">
-    <h1 class="my-4">Crypto Profit/Loss Calculator</h1>
-
-    <h2 class="my-4">How does your portfolio look</h2>
     <div id="cryptoContainer">
         <div class="assetContainer">
             <div class="cryptoRow row mb-2">
@@ -59,16 +59,23 @@
     </div>
     <button class="btn btn-primary my-2" onclick="addRow()">+ Add Asset</button>
     <button class="btn btn-success my-2" onclick="calculateProfit()">Calculate</button>
-
-    <h3>Total Portfolio</h3>
+    
     <div class="card my-4">
         <div class="card-body">
-            <h5 class="card-title">Portfolio Summary</h5>
+            <h2 class="card-title">Portfolio Summary</h2>
             <p class="card-text">Total Investment: <span id="totalInvestment" class="text-muted">-</span></p>
             <p class="card-text">Total Fees: <span id="totalFees" class="text-muted">-</span></p>
             <p class="card-text">Total Holdings: <span id="totalHoldings" class="text-muted">-</span></p>
             <p class="card-text">Total Profit/Loss: <span id="totalProfitLoss" class="text-muted">-</span></p>
         </div>
+    </div>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h3 class="card-title">How it works</h3>
+            <p>Fill in the inputs</p>
+        </div>
+
     </div>
 
     <!-- Bootstrap JS and dependencies -->
