@@ -21,9 +21,17 @@
     position: relative; /* Ensure the container is positioned relative */
 }
 
+.assetContainer input {
+    margin-bottom: 0.5rem;
+}
+
 .card {
     border-radius: 10px;
     background-color: #f0f4f8;
+}
+
+.card-text {
+    font-weight: bold;
 }
 
 /* Style for the headers */
