@@ -49,7 +49,7 @@ function addRow() {
                 <label for="sellPrice">Sell Price ($)</label>
                 <input type="number" id="sellPrice" class="sellPrice form-control" placeholder="Sell Price in USD">
             </div>
-            <div class="col-12 col-md-1">
+            <div id="holding-box" class="col-12 col-md-1">
                 <label for="stillHolding">Still Holding</label>
                 <input type="checkbox" id="stillHolding" class="stillHolding form-control" onchange="toggleSellFields(this)">
             </div>
