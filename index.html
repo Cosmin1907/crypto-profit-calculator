@@ -61,10 +61,15 @@
     <button class="btn btn-success my-2" onclick="calculateProfit()">Calculate</button>
 
     <h3>Total Portfolio</h3>
-    <p>Total Investment: <span id="totalInvestment" class="text-muted">-</span></p>
-    <p>Total Fees: <span id="totalFees" class="text-muted">-</span></p>
-    <p>Total Holdings: <span id="totalHoldings" class="text-muted">-</span></p>
-    <p>Total Profit/Loss: <span id="totalProfitLoss" class="text-muted">-</span></p>
+    <div class="card my-4">
+        <div class="card-body">
+            <h5 class="card-title">Portfolio Summary</h5>
+            <p class="card-text">Total Investment: <span id="totalInvestment" class="text-muted">-</span></p>
+            <p class="card-text">Total Fees: <span id="totalFees" class="text-muted">-</span></p>
+            <p class="card-text">Total Holdings: <span id="totalHoldings" class="text-muted">-</span></p>
+            <p class="card-text">Total Profit/Loss: <span id="totalProfitLoss" class="text-muted">-</span></p>
+        </div>
+    </div>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
