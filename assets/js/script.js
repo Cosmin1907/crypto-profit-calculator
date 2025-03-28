@@ -59,16 +59,19 @@ function addRow() {
             </div>
             <button class="xbutton btn btn-danger" onclick="removeRow(this)">X</button>
         </div>
-        <div class="cryptoRow row mb-2">
-            <div class="col-12 col-md-2 offset-md-2">
-                <label for="investmentFee">Investment Fee (%)</label>
-                <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in %" value="0">
+        <button id="toggleButton">Add Fees</button>
+            
+            <div class="cryptoRow row mb-2" id="cryptoRowWrapper">
+                <div class="col-12 col-md-2 offset-md-2">
+                    <label for="investmentFee">Investment Fee (%)</label>
+                    <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in %"
+                        value="0">
+                </div>
+                <div class="col-12 col-md-2">
+                    <label for="exitFee">Exit Fee (%)</label>
+                    <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0">
+                </div>
             </div>
-            <div class="col-12 col-md-2">
-                <label for="exitFee">Exit Fee (%)</label>
-                <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0">
-            </div>
-        </div>
     `;
     container.appendChild(assetContainer);
 
@@ -223,6 +226,22 @@ function toggleSellFields(checkbox) {
         sellPrice.disabled = false;
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('cryptoContainer');
+
+    // Use event delegation to handle clicks on dynamically created buttons
+    container.addEventListener('click', (event) => {
+        if (event.target && event.target.id === 'toggleButton') {
+            const card = event.target.closest('.assetContainer');
+            const cryptoRow = card.querySelector('#cryptoRowWrapper');
+
+            // Toggle the visibility of the fee row
+            cryptoRow.classList.toggle('show');
+        }
+    });
+});
+
 
 // Wait for the DOM to be fully loaded before running the script
 window.onload = async function () {

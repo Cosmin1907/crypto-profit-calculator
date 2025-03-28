@@ -69,6 +69,18 @@ p {
     justify-content: flex-end;
 }
 
+/* Initially hide the element */
+#cryptoRowWrapper {
+    display: none;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+/* Add this class when you want to show it */
+#cryptoRowWrapper.show {
+    display: block;
+}
+
 /* Ensure Profit/Loss is at the end in mobile view */
 @media (max-width: 768px) {
     .cryptoRow .profitLoss {

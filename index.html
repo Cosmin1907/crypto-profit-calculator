@@ -45,10 +45,14 @@
                 </div>
                 <button class="xbutton btn btn-danger" onclick="removeRow(this)">X</button>
             </div>
-            <div class="cryptoRow row mb-2">
+            <button id="toggleButton">Add Fees</button>
+            
+            <!-- Changed the id to 'cryptoRowWrapper' -->
+            <div class="cryptoRow row mb-2" id="cryptoRowWrapper">
                 <div class="col-12 col-md-2 offset-md-2">
                     <label for="investmentFee">Investment Fee (%)</label>
-                    <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in %" value="0">
+                    <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in %"
+                        value="0">
                 </div>
                 <div class="col-12 col-md-2">
                     <label for="exitFee">Exit Fee (%)</label>
@@ -59,7 +63,7 @@
     </div>
     <button class="btn btn-primary my-2" onclick="addRow()">+ Add Asset</button>
     <button class="btn btn-success my-2" onclick="calculateProfit()">Calculate</button>
-    
+
     <div class="card my-4">
         <div class="card-body">
             <h2 class="card-title">Portfolio Summary</h2>
