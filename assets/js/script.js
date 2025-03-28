@@ -26,8 +26,14 @@ fetchDataPeriodically(); // Initial fetch
 function addRow() {
     let container = document.getElementById("cryptoContainer");
 
+    // Create a new asset container
     let assetContainer = document.createElement("div");
     assetContainer.className = "assetContainer";
+
+    // Generate a unique ID for the "Still Holding" checkbox and label
+    const uniqueId = `stillHolding-${Date.now()}`;
+
+    // Add the new row content
     assetContainer.innerHTML = `
         <div class="cryptoRow row mb-2">
             <div class="col-12 col-md-2">
@@ -50,8 +56,8 @@ function addRow() {
                 <input type="number" id="sellPrice" class="sellPrice form-control" placeholder="Sell Price in USD">
             </div>
             <div id="holding-box" class="col-12 col-md-1">
-                <label for="stillHolding">Still Holding</label>
-                <input type="checkbox" id="stillHolding" class="stillHolding form-control" onchange="toggleSellFields(this)">
+                <label for="${uniqueId}">Still Holding</label>
+                <input type="checkbox" id="${uniqueId}" class="stillHolding form-control" onchange="toggleSellFields(this)">
             </div>
             <div class="col-12 col-md-2">
                 <label for="profitLoss">Profit/Loss</label>
@@ -60,19 +66,19 @@ function addRow() {
             <button class="xbutton btn btn-danger" onclick="removeRow(this)">X</button>
         </div>
         <button id="toggleButton" class="btn btn-outline-info">Add Fees</button>
-            
-            <div class="cryptoRow row mb-2" id="cryptoRowWrapper">
-                <div class="col-12 col-md-2 offset-md-2">
-                    <label for="investmentFee">Investment Fee (%)</label>
-                    <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in %"
-                        value="0">
-                </div>
-                <div class="col-12 col-md-2">
-                    <label for="exitFee">Exit Fee (%)</label>
-                    <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0">
-                </div>
+        <div class="cryptoRow row mb-2" id="cryptoRowWrapper">
+            <div class="col-12 col-md-2 offset-md-2">
+                <label for="investmentFee">Investment Fee (%)</label>
+                <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in %" value="0">
             </div>
+            <div class="col-12 col-md-2">
+                <label for="exitFee">Exit Fee (%)</label>
+                <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0">
+            </div>
+        </div>
     `;
+
+    // Append the new asset container to the main container
     container.appendChild(assetContainer);
 
     // Attach event listener to the new dropdown
