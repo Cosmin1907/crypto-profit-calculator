@@ -16,7 +16,7 @@
     background-color: #f0f4f8;
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
     margin-bottom: 1rem;
     position: relative; /* Ensure the container is positioned relative */
 }
@@ -35,13 +35,20 @@
 }
 
 /* Style for the headers */
-h1, h2 {
-    color: #343a40;
-}
 
 h1 {
     font-size: 1.5em;
+    margin-bottom: 1.5rem;
+}
+
+h2 {
+    font-size: 1.5em;
     margin-bottom: 1rem;
+}
+
+h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
 }
 
 /* Style for the buttons */
@@ -64,7 +71,7 @@ button.btn {
 /* Style for the total portfolio section */
 
 p {
-    font-size: 1.1em;
+    font-size: 1rem;
 }
 
 /* Custom style for the remove button */
@@ -108,6 +115,7 @@ p {
     border-radius: 50%;
     background-color: black;
     border: 4px solid #333;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -169,6 +177,14 @@ p {
     color: #fff;
 }
 
+.summary {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+}
+
 /* Ensure Profit/Loss is at the end in mobile view */
 @media (min-width: 768px) {
     
@@ -181,5 +197,11 @@ p {
 
     .buttons {
         flex-direction: row;
+    }
+    .summary {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        padding: 1rem 4rem;
     }
 }
