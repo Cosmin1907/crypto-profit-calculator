@@ -100,6 +100,40 @@ p {
     display: block;
 }
 
+/* Style for the Speedometer display */
+.speedometer {
+    position: relative;
+    width: 200px;
+    height: 100px;
+    background: conic-gradient(#ff0000, #ffcc00, #00ff00);
+    border-radius: 100px 100px 0 0;
+    border: 5px solid #333;
+    overflow: hidden;
+}
+
+.needle {
+    position: absolute;
+    width: 5px;
+    height: 90px;
+    background: #000;
+    left: 50%;
+    bottom: 0;
+    transform-origin: bottom center;
+    transform: rotate(-90deg);
+    transition: transform 0.5s ease-in-out;
+}
+
+.meter-label {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+
 /* Ensure Profit/Loss is at the end in mobile view */
 @media (min-width: 768px) {
     

@@ -173,6 +173,9 @@ async function calculateProfit() {
 
     let totalHoldingsElement = document.getElementById("totalHoldings");
     totalHoldingsElement.innerText = `$${totalHoldings.toFixed(2)}`;
+
+    updateLamboMeter(totalProfitLoss);
+    
 }
 
 // Function to fetch all coins from CoinGecko
@@ -263,3 +266,39 @@ window.onload = async function () {
         select.addEventListener("input", filterCryptoOptions);
     });
 };
+
+// Add function to calculate Lambo
+
+function updateLamboMeter(profitLoss) {
+    const minValue = -250000;
+    const maxValue = 250000;
+    
+    // Clamp value to avoid breaking the UI
+    profitLoss = Math.max(minValue, Math.min(maxValue, profitLoss));
+
+    // Map value to angle (-90 to 90 degrees)
+    const minAngle = -90;
+    const maxAngle = 90;
+    const angle = minAngle + ((profitLoss - minValue) * (maxAngle - minAngle) / (maxValue - minValue));
+
+    // Update needle position
+    const needle = document.getElementById('needle');
+    if (needle) {
+        needle.style.transform = `rotate(${angle}deg)`;
+    }
+
+    // Update "D" or "R" state
+    const meterLabel = document.querySelector('.meter-label');
+    if (meterLabel) {
+        if (profitLoss >= maxValue) {
+            meterLabel.innerText = '🚀 LAMBO ACHIEVED! 🚀';
+            meterLabel.style.color = 'gold';
+        } else if (profitLoss >= 0) {
+            meterLabel.innerText = 'D'; // Drive state
+            meterLabel.style.color = 'green';
+        } else {
+            meterLabel.innerText = 'R'; // Reverse state
+            meterLabel.style.color = 'red';
+        }
+    }
+}
