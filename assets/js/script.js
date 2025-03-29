@@ -272,22 +272,27 @@ window.onload = async function () {
 function updateLamboMeter(profitLoss) {
     const minValue = -250000;
     const maxValue = 250000;
-    
+
     // Clamp value to avoid breaking the UI
     profitLoss = Math.max(minValue, Math.min(maxValue, profitLoss));
+    console.log("Profit/Loss:", profitLoss);
 
     // Map value to angle (-90 to 90 degrees)
     const minAngle = -90;
     const maxAngle = 90;
     const angle = minAngle + ((profitLoss - minValue) * (maxAngle - minAngle) / (maxValue - minValue));
+    console.log(`Rotating needle to ${angle} degrees`);
 
     // Update needle position
     const needle = document.getElementById('needle');
     if (needle) {
-        needle.style.transform = `rotate(${angle}deg)`;
+        // Force the rotation using setProperty and !important to ensure it's applied
+        needle.style.setProperty("transform", `rotate(${angle}deg)`, "important");
+    } else {
+        console.error("Needle element not found");
     }
 
-    // Update "D" or "R" state
+    // Update "D" or "R" state (Drive or Reverse)
     const meterLabel = document.querySelector('.meter-label');
     if (meterLabel) {
         if (profitLoss >= maxValue) {
@@ -302,3 +307,4 @@ function updateLamboMeter(profitLoss) {
         }
     }
 }
+

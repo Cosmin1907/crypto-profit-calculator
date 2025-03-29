@@ -102,26 +102,44 @@ p {
 
 /* Style for the Speedometer display */
 .speedometer {
-    position: relative;
     width: 200px;
     height: 100px;
-    background: conic-gradient(#ff0000, #ffcc00, #00ff00);
-    border-radius: 100px 100px 0 0;
-    border: 5px solid #333;
-    overflow: hidden;
+    position: relative;
+    border: 2px solid #ccc;
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+    overflow: visible;  /* Ensure the needle is not cut off */
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Align the needle to the bottom */
 }
 
+
 .needle {
-    position: absolute;
-    width: 5px;
+    width: 4px;
     height: 90px;
-    background: #000;
-    left: 50%;
+    background-color: red;
+    position: absolute;
     bottom: 0;
-    transform-origin: bottom center;
-    transform: rotate(-90deg);
-    transition: transform 0.5s ease-in-out;
+    left: 50%;
+    transform-origin: bottom center; /* Make sure it's rotating from the bottom */
+    transition: transform 0.5s ease; /* Smooth transition for visual effect */
 }
+
+
+.speedometer::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background-color: black;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+}
+
 
 .meter-label {
     position: absolute;
@@ -132,7 +150,6 @@ p {
     font-weight: bold;
     color: #333;
 }
-
 
 /* Ensure Profit/Loss is at the end in mobile view */
 @media (min-width: 768px) {
