@@ -270,23 +270,23 @@ window.onload = async function () {
 // Add function to calculate Lambo
 
 function updateLamboMeter(profitLoss) {
-    const maxValue = 200000;  // Set max value for "Lambo achieved"
+    const maxValue = 200000;  // Maximum profit/loss
+    const minAngle = 0;       // Minimum angle (leftmost)
+    const maxAngle = 180;     // Maximum angle (rightmost)
 
-    // Allow negative profitLoss but ensure the UI behaves as a speedometer
+    // Ensure profitLoss is positive for mapping
     const absoluteProfitLoss = Math.abs(profitLoss);
     console.log("Profit/Loss:", profitLoss);
 
-    // Map absolute value to angle (from 0 degrees to 90 degrees)
-    const minAngle = 0;  // Start from the bottom left
-    const maxAngle = 90; // Move toward the right
-    const angle = (absoluteProfitLoss * (maxAngle - minAngle) / maxValue);
+    // Correctly map profit/loss to angle (0 to 180 degrees)
+    let angle = (absoluteProfitLoss / maxValue) * (maxAngle - minAngle);
+
     console.log(`Rotating needle to ${angle} degrees`);
 
-    // Update needle position (always rotating forward)
+    // Apply rotation (adjusting for initial -90 degrees)
     const needle = document.getElementById('needle');
     if (needle) {
-        // Set the needle's rotation angle
-        needle.style.setProperty("transform", `rotate(${angle}deg)`, "important");
+        needle.style.setProperty("transform", `translateX(-50%) rotate(${angle - 90}deg)`, "important");
     } else {
         console.error("Needle element not found");
     }
@@ -306,6 +306,7 @@ function updateLamboMeter(profitLoss) {
         }
     }
 }
+
 
 
 
