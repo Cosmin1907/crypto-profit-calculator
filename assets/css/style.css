@@ -101,6 +101,7 @@ p {
 }
 
 /* Style for the Speedometer display */
+/* Style for the Speedometer display */
 .speedometer {
     width: 200px;
     height: 100px;
@@ -115,7 +116,6 @@ p {
     align-items: flex-end; /* Align the needle to the bottom */
 }
 
-
 .needle {
     width: 4px;
     height: 90px;
@@ -123,10 +123,10 @@ p {
     position: absolute;
     bottom: 0;
     left: 50%;
+    rotate: -90deg; /* Rotate the needle to point upwards */
     transform-origin: bottom center; /* Make sure it's rotating from the bottom */
     transition: transform 0.5s ease; /* Smooth transition for visual effect */
 }
-
 
 .speedometer::before {
     content: '';
@@ -140,7 +140,6 @@ p {
     border-radius: 50%;
 }
 
-
 .meter-label {
     position: absolute;
     bottom: -20px;
@@ -150,6 +149,7 @@ p {
     font-weight: bold;
     color: #333;
 }
+
 
 /* Ensure Profit/Loss is at the end in mobile view */
 @media (min-width: 768px) {

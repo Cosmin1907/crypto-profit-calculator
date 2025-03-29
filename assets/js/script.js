@@ -270,23 +270,22 @@ window.onload = async function () {
 // Add function to calculate Lambo
 
 function updateLamboMeter(profitLoss) {
-    const minValue = -250000;
-    const maxValue = 250000;
+    const maxValue = 200000;  // Set max value for "Lambo achieved"
 
-    // Clamp value to avoid breaking the UI
-    profitLoss = Math.max(minValue, Math.min(maxValue, profitLoss));
+    // Allow negative profitLoss but ensure the UI behaves as a speedometer
+    const absoluteProfitLoss = Math.abs(profitLoss);
     console.log("Profit/Loss:", profitLoss);
 
-    // Map value to angle (-90 to 90 degrees)
-    const minAngle = -90;
-    const maxAngle = 90;
-    const angle = minAngle + ((profitLoss - minValue) * (maxAngle - minAngle) / (maxValue - minValue));
+    // Map absolute value to angle (from 0 degrees to 90 degrees)
+    const minAngle = 0;  // Start from the bottom left
+    const maxAngle = 90; // Move toward the right
+    const angle = (absoluteProfitLoss * (maxAngle - minAngle) / maxValue);
     console.log(`Rotating needle to ${angle} degrees`);
 
-    // Update needle position
+    // Update needle position (always rotating forward)
     const needle = document.getElementById('needle');
     if (needle) {
-        // Force the rotation using setProperty and !important to ensure it's applied
+        // Set the needle's rotation angle
         needle.style.setProperty("transform", `rotate(${angle}deg)`, "important");
     } else {
         console.error("Needle element not found");
@@ -298,7 +297,7 @@ function updateLamboMeter(profitLoss) {
         if (profitLoss >= maxValue) {
             meterLabel.innerText = '🚀 LAMBO ACHIEVED! 🚀';
             meterLabel.style.color = 'gold';
-        } else if (profitLoss >= 0) {
+        } else if (profitLoss > 0) {
             meterLabel.innerText = 'D'; // Drive state
             meterLabel.style.color = 'green';
         } else {
@@ -307,4 +306,6 @@ function updateLamboMeter(profitLoss) {
         }
     }
 }
+
+
 
