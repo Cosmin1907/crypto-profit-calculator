@@ -348,17 +348,21 @@ function updateLamboMeter(profitLoss) {
 
     // Update "D" or "R" state (Drive or Reverse)
     const meterLabels = document.querySelectorAll('.meter-label');
+    const gearText = document.querySelector('.gear p'); // Select the paragraph inside .gear
 
     meterLabels.forEach(meterLabel => {
         if (profitLoss >= maxValue) {
             meterLabel.innerText = '🚀 LAMBO ACHIEVED! 🚀';
             meterLabel.style.color = 'gold';
+            gearText.innerText = "You're at maximum speed! Enjoy the ride! 🚀";
         } else if (profitLoss > 0) {
             meterLabel.innerText = 'D'; // Drive state
             meterLabel.style.color = 'green';
+            gearText.innerText = "You're picking up speed, keep going! 🚗💨";
         } else {
             meterLabel.innerText = 'R'; // Reverse state
             meterLabel.style.color = 'red';
+            gearText.innerText = "You're in Reverse! Be careful! ⚠️";
         }
     });
 

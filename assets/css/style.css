@@ -205,7 +205,11 @@ p {
 
 /* Ensure Profit/Loss is at the end in mobile view */
 @media (min-width: 768px) {
-    
+    #holding-box {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
 }
 
 @media (min-width: 1024px) {
