@@ -292,8 +292,9 @@ function updateLamboMeter(profitLoss) {
     }
 
     // Update "D" or "R" state (Drive or Reverse)
-    const meterLabel = document.querySelector('.meter-label');
-    if (meterLabel) {
+    const meterLabels = document.querySelectorAll('.meter-label');
+
+    meterLabels.forEach(meterLabel => {
         if (profitLoss >= maxValue) {
             meterLabel.innerText = '🚀 LAMBO ACHIEVED! 🚀';
             meterLabel.style.color = 'gold';
@@ -304,7 +305,8 @@ function updateLamboMeter(profitLoss) {
             meterLabel.innerText = 'R'; // Reverse state
             meterLabel.style.color = 'red';
         }
-    }
+    });
+
 }
 
 
