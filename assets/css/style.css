@@ -106,7 +106,7 @@ p {
 
 /* Add this class when you want to show it */
 #cryptoRowWrapper.show {
-    display: block;
+    display: flex;
 }
 
 /* Style for the Speedometer display */

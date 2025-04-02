@@ -94,21 +94,21 @@ function addRow() {
             <div class="col-12 col-md-2">
                 <label for="cryptoSelect">Asset</label>
                 <select id="cryptoSelect" class="crypto-select form-control" onclick="populateCryptoSelect(this)">
-                    <option value="" disabled selected>Select Cryptocurrency</option>
+                    <option value="" disabled selected>Select Asset</option>
                     <!-- Options will be populated dynamically -->
                 </select>
             </div>
             <div class="col-12 col-md-2">
                 <label for="investment">Investment ($)</label>
-                <input type="number" id="investment" class="investment form-control" placeholder="Amount in USD">
+                <input type="number" id="investment" class="investment form-control" placeholder="Amount">
             </div>
             <div class="col-12 col-md-2">
                 <label for="buyPrice">Buy Price ($)</label>
-                <input type="number" id="buyPrice" class="buyPrice form-control" placeholder="Buy Price in USD">
+                <input type="number" id="buyPrice" class="buyPrice form-control" placeholder="Buy Price">
             </div>
             <div class="col-12 col-md-2">
                 <label for="sellPrice">Sell Price ($)</label>
-                <input type="number" id="sellPrice" class="sellPrice form-control" placeholder="Sell Price in USD">
+                <input type="number" id="sellPrice" class="sellPrice form-control" placeholder="Sell Price">
             </div>
             <div id="holding-box" class="col-12 col-md-1">
                 <label for="${uniqueId}">Still Holding</label>
@@ -253,7 +253,7 @@ function populateCryptoSelect(selectElement = null) {
     const selectedValue = selectElement.value; // Store the current selected value
 
     // If a specific select element is provided, populate only that one
-    selectElement.innerHTML = "<option value='' disabled>Select Cryptocurrency</option>";
+    selectElement.innerHTML = "<option value='' disabled>Select Asset</option>";
     coinList.forEach(coin => {
         const option = document.createElement("option");
         option.value = coin.id;
