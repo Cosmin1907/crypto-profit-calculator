@@ -1,16 +1,71 @@
-const API_BASE = "https://api.coingecko.com/api/v3";
 let localData = {}; // Object to store the fetched data
 let coinList = []; // List to store the fetched coin list
 
-// Function to fetch data periodically and store it locally
-async function fetchDataPeriodically() {
-    const url = `${API_BASE}/coins/markets?vs_currency=usd`;
-    const response = await fetch(url);
-    const coins = await response.json();
+// Function to fetch data from JsonBin or update it if outdated
+async function fetchData() {
+    try {
+        console.log("📥 Checking cached data in JsonBin...");
+        const response = await fetch(JSONBIN_URL, {
+            method: "GET",
+            headers: { "X-Master-Key": JSONBIN_API_KEY }
+        });
 
+        const jsonData = await response.json();
+        const storedData = jsonData.record;
+
+        if (!storedData || !storedData.lastUpdated || Date.now() - storedData.lastUpdated > 10 * 60 * 1000) {
+            console.log("⚠️ Data is old! Fetching fresh data...");
+            return await fetchAndUpdateJsonBin(); // Fetch new data and update JsonBin
+        } else {
+            console.log("✅ Using cached data.");
+            return storedData.coins;
+        }
+    } catch (error) {
+        console.error("❌ Error fetching data from JsonBin:", error);
+        return [];
+    }
+}
+
+// Function to fetch fresh data from CoinGecko and update JsonBin
+async function fetchAndUpdateJsonBin() {
+    try {
+        console.log("🔄 Fetching new data from CoinGecko...");
+        const url = `${API_BASE}/coins/markets?vs_currency=usd`;
+        const response = await fetch(url);
+        const coins = await response.json();
+
+        const newData = {
+            lastUpdated: Date.now(),
+            coins: coins.map(coin => ({
+                id: coin.id,
+                currentPrice: coin.current_price
+            }))
+        };
+
+        // Update JsonBin with fresh data
+        await fetch(JSONBIN_URL, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Master-Key": JSONBIN_API_KEY
+            },
+            body: JSON.stringify(newData)
+        });
+
+        console.log("✅ JsonBin updated successfully!");
+        return newData.coins;
+    } catch (error) {
+        console.error("❌ Error updating JsonBin:", error);
+        return [];
+    }
+}
+
+// Update the fetchDataPeriodically function to use JsonBin
+async function fetchDataPeriodically() {
+    const coins = await fetchData(); // Fetch data from JsonBin
     localData = coins.reduce((acc, coin) => {
         acc[coin.id] = {
-            currentPrice: coin.current_price,
+            currentPrice: coin.currentPrice
         };
         return acc;
     }, {});
