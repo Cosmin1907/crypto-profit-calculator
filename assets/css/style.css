@@ -222,4 +222,17 @@ p {
         gap: 2rem;
         padding: 1rem 4rem;
     }
+    .gear-label {
+        bottom: 65%;
+        left: 62%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .summary {
+        padding: 1rem 6rem;
+    }
+    .gear-label {
+        left: 65%;
+    }
 }
