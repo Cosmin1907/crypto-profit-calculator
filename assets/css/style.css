@@ -31,6 +31,8 @@
 }
 
 .card-text {
+    display: flex;
+    justify-content: space-between;
     font-weight: bold;
 }
 
@@ -175,6 +177,18 @@ p {
     font-size: 16px;
     font-weight: bold;
     color: #fff;
+}
+
+.gear-label {
+    position: absolute;
+    bottom: 170px;
+    left: 61%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    color: #fff;
+    background-color: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
 }
 
 .summary {
