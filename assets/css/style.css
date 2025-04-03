@@ -203,6 +203,57 @@ p {
     padding: 1rem;
 }
 
+/* Style for the articles  */
+
+.card-body {
+    font-family: "Arial", sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.card-body h4 {
+    margin-top: 1.5rem;
+}
+
+.card-body h5 {
+    margin-top: 20px;
+    padding-bottom: 5px;
+}
+
+.card-body p {
+    margin: 10px 0;
+}
+
+.card-body ul {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.card-body li {
+    margin-bottom: 5px;
+}
+
+.card-body strong {
+    color: #000;
+}
+
+.card-body a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.card-body a:hover {
+    text-decoration: underline;
+}
+
+.card-body code {
+    background: #f4f4f4;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: "Courier New", monospace;
+}
+
+
 /* Ensure Profit/Loss is at the end in mobile view */
 @media (min-width: 768px) {
     #holding-box {
