@@ -368,6 +368,22 @@ function updateLamboMeter(profitLoss) {
 
 }
 
+// Add event listener for the "Calculate" button
+document.getElementById("nativeShareBtn").addEventListener("click", async () => {
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "Awesome App!",
+        text: "Check out this awesome app!",
+        url: window.location.href,
+      });
+    } catch (err) {
+      console.error("Sharing failed:", err);
+    }
+  } else {
+    alert("Your browser doesn't support native sharing. Try using the buttons below!");
+  }
+});
 
 
 

@@ -253,6 +253,32 @@ p {
     font-family: "Courier New", monospace;
 }
 
+/* Style for the share buttons */
+
+#nativeShareBtn, #fallbackShare a {
+  display: inline-block;
+  padding: 10px 15px;
+  margin: 5px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+#fallbackShare a {
+  background-color: #25d366; /* WhatsApp green */
+}
+
+#fallbackShare a:nth-child(2) {
+  background-color: #0088cc; /* Telegram blue */
+}
+
+#fallbackShare a:nth-child(3) {
+  background-color: #4267B2; /* Facebook blue */
+}
+
+
 
 /* Ensure Profit/Loss is at the end in mobile view */
 @media (min-width: 768px) {
