@@ -5,6 +5,8 @@ let coinList = []; // List to store the fetched coin list
 firebase.initializeApp(firebaseConfig);
 const dbRef = firebase.database().ref("coinData");
 
+const API_URL = `${API_BASE}/coins/markets?vs_currency=usd&per_page=250&page=1`;
+
 async function fetchData() {
     try {
         console.log("📥 Checking cached data in Firebase...");
@@ -225,17 +227,28 @@ async function calculateProfit() {
 
 }
 
-// Function to fetch all coins from CoinGecko
+// Function to fetch all coins from Firebase instead of directly from the API
 async function fetchCoinList() {
-    const url = `${API_BASE}/coins/markets?vs_currency=usd`;
-    const response = await fetch(url);
-    const coins = await response.json();
+    try {
+        console.log("📥 Fetching coin list from Firebase...");
+        const snapshot = await dbRef.get();
+        const storedData = snapshot.val();
 
-    coinList = coins.map(coin => ({
-        id: coin.id,
-        name: coin.name,
-        symbol: coin.symbol.toUpperCase()
-    }));
+        if (storedData && storedData.coins) {
+            console.log("✅ Coin list fetched from Firebase.");
+            coinList = storedData.coins.map(coin => ({
+                id: coin.id,
+                name: coin.name,
+                symbol: coin.symbol.toUpperCase()
+            }));
+        } else {
+            console.log("⚠️ No coin list found in Firebase. Fetching from API...");
+            await fetchAndUpdateFirebase(); // Fetch from API and update Firebase
+            await fetchCoinList(); // Retry fetching from Firebase
+        }
+    } catch (error) {
+        console.error("❌ Error fetching coin list from Firebase:", error);
+    }
 }
 
 // Function to populate the dropdown with the coin list
