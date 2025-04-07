@@ -7,12 +7,26 @@ const dbRef = firebase.database().ref("coinData");
 
 const API_URL = `${API_BASE}/coins/markets?vs_currency=usd&per_page=250&page=1`;
 
+// Function to clear Firebase data
+async function clearFirebaseData() {
+    try {
+        await dbRef.set(null);
+        console.log("🗑️ Firebase data cleared.");
+    } catch (error) {
+        console.error("❌ Error clearing Firebase data:", error);
+    }
+}
+
+// Call the function to clear Firebase data
+clearFirebaseData();
+
 async function fetchData() {
     try {
         console.log("📥 Checking cached data in Firebase...");
         const snapshot = await dbRef.get();
 
         const storedData = snapshot.val();
+        console.log("Fetched data from Firebase:", storedData);
 
         if (
             !storedData ||
@@ -34,16 +48,19 @@ async function fetchData() {
 async function fetchAndUpdateFirebase() {
     try {
         console.log("🔄 Fetching new data from CoinGecko...");
-        const url = `${API_BASE}/coins/markets?vs_currency=usd`;
-        const response = await fetch(url);
+        const response = await fetch(API_URL);
         const coins = await response.json();
 
         const newData = {
             lastUpdated: Date.now(),
-            coins: coins.map(coin => ({
-                id: coin.id,
-                currentPrice: coin.current_price
-            }))
+            coins: coins
+                .filter(coin => coin.id && coin.name && coin.symbol) // Validate data
+                .map(coin => ({
+                    id: coin.id,
+                    name: coin.name,
+                    symbol: coin.symbol.toUpperCase(),
+                    currentPrice: coin.current_price
+                }))
         };
 
         await dbRef.set(newData); // Write to Firebase
@@ -236,11 +253,13 @@ async function fetchCoinList() {
 
         if (storedData && storedData.coins) {
             console.log("✅ Coin list fetched from Firebase.");
-            coinList = storedData.coins.map(coin => ({
-                id: coin.id,
-                name: coin.name,
-                symbol: coin.symbol.toUpperCase()
-            }));
+            coinList = storedData.coins
+                .filter(coin => coin.symbol) // Ensure coin.symbol exists
+                .map(coin => ({
+                    id: coin.id,
+                    name: coin.name,
+                    symbol: coin.symbol.toUpperCase()
+                }));
         } else {
             console.log("⚠️ No coin list found in Firebase. Fetching from API...");
             await fetchAndUpdateFirebase(); // Fetch from API and update Firebase
