@@ -387,6 +387,15 @@ document.getElementById("copy-link").addEventListener("click", function (e) {
 });
 
 
-
-
+function writeTestData() {
+    database.ref("test").set({
+      message: "Hello from Firebase!"
+    }).then(() => {
+      console.log("✅ Data written successfully!");
+      alert("Data sent to Firebase!");
+    }).catch((error) => {
+      console.error("❌ Error writing to Firebase:", error);
+      alert("Error writing to Firebase.");
+    });
+  }
 
