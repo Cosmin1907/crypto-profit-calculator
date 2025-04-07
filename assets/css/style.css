@@ -255,28 +255,59 @@ p {
 
 /* Style for the share buttons */
 
-#nativeShareBtn, #fallbackShare a {
-  display: inline-block;
-  padding: 10px 15px;
-  margin: 5px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
+/* Base styles for native share and fallback icons */
+#nativeShareBtn,
 #fallbackShare a {
-  background-color: #25d366; /* WhatsApp green */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 39px;
+  margin: 5px;
+  text-decoration: none;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  color: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* WhatsApp */
+#fallbackShare a:nth-child(1) {
+  background-color: #25d366;
+}
+
+/* Telegram */
 #fallbackShare a:nth-child(2) {
-  background-color: #0088cc; /* Telegram blue */
+  background-color: #0088cc;
 }
 
+/* Facebook */
 #fallbackShare a:nth-child(3) {
-  background-color: #4267B2; /* Facebook blue */
+  background-color: #4267B2;
 }
+
+/* Messenger */
+#fallbackShare a:nth-child(4) {
+  background-color: #0084FF;
+}
+
+/* LinkedIn */
+#fallbackShare a:nth-child(5) {
+  background-color: #0077B5;
+}
+
+/* Twitter (X) */
+#fallbackShare a:nth-child(6) {
+    background-color: #000; 
+  }
+
+/* Add hover effect for a slick feel */
+#fallbackShare a:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+
 
 
 
@@ -306,6 +337,12 @@ p {
     .gear-label {
         bottom: 65%;
         left: 62%;
+    }
+    .share {
+        display: flex;
+        gap: 1rem;
+        align-items: baseline;
+
     }
 }
 
