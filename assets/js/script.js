@@ -1,33 +1,35 @@
 let localData = {}; // Object to store the fetched data
 let coinList = []; // List to store the fetched coin list
 
-// Function to fetch data from JsonBin or update it if outdated
+// Function to fetch data Firebase and update it if necessary
+firebase.initializeApp(firebaseConfig);
+const dbRef = firebase.database().ref("coinData");
+
 async function fetchData() {
     try {
-        console.log("📥 Checking cached data in JsonBin...");
-        const response = await fetch(JSONBIN_URL, {
-            method: "GET",
-            headers: { "X-Master-Key": JSONBIN_API_KEY }
-        });
+        console.log("📥 Checking cached data in Firebase...");
+        const snapshot = await dbRef.get();
 
-        const jsonData = await response.json();
-        const storedData = jsonData.record;
+        const storedData = snapshot.val();
 
-        if (!storedData || !storedData.lastUpdated || Date.now() - storedData.lastUpdated > 10 * 60 * 1000) {
+        if (
+            !storedData ||
+            !storedData.lastUpdated ||
+            Date.now() - storedData.lastUpdated > 10 * 60 * 1000
+        ) {
             console.log("⚠️ Data is old! Fetching fresh data...");
-            return await fetchAndUpdateJsonBin(); // Fetch new data and update JsonBin
+            return await fetchAndUpdateFirebase(); // Fetch new data and update Firebase
         } else {
             console.log("✅ Using cached data.");
             return storedData.coins;
         }
     } catch (error) {
-        console.error("❌ Error fetching data from JsonBin:", error);
+        console.error("❌ Error fetching data from Firebase:", error);
         return [];
     }
 }
 
-// Function to fetch fresh data from CoinGecko and update JsonBin
-async function fetchAndUpdateJsonBin() {
+async function fetchAndUpdateFirebase() {
     try {
         console.log("🔄 Fetching new data from CoinGecko...");
         const url = `${API_BASE}/coins/markets?vs_currency=usd`;
@@ -42,27 +44,18 @@ async function fetchAndUpdateJsonBin() {
             }))
         };
 
-        // Update JsonBin with fresh data
-        await fetch(JSONBIN_URL, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "X-Master-Key": JSONBIN_API_KEY
-            },
-            body: JSON.stringify(newData)
-        });
+        await dbRef.set(newData); // Write to Firebase
 
-        console.log("✅ JsonBin updated successfully!");
+        console.log("✅ Firebase updated successfully!");
         return newData.coins;
     } catch (error) {
-        console.error("❌ Error updating JsonBin:", error);
+        console.error("❌ Error updating Firebase:", error);
         return [];
     }
 }
 
-// Update the fetchDataPeriodically function to use JsonBin
 async function fetchDataPeriodically() {
-    const coins = await fetchData(); // Fetch data from JsonBin
+    const coins = await fetchData(); // Fetch data from Firebase
     localData = coins.reduce((acc, coin) => {
         acc[coin.id] = {
             currentPrice: coin.currentPrice
@@ -70,10 +63,9 @@ async function fetchDataPeriodically() {
         return acc;
     }, {});
 
-    console.log("Data fetched and stored locally:", localData);
+    console.log("📦 Data fetched and stored locally:", localData);
 }
 
-// Fetch data every 10 minutes (600000 milliseconds)
 setInterval(fetchDataPeriodically, 600000);
 fetchDataPeriodically(); // Initial fetch
 
@@ -385,17 +377,4 @@ document.getElementById("copy-link").addEventListener("click", function (e) {
         document.getElementById("copy-status").textContent = "";
     }, 2000);
 });
-
-
-function writeTestData() {
-    database.ref("test").set({
-      message: "Hello from Firebase!"
-    }).then(() => {
-      console.log("✅ Data written successfully!");
-      alert("Data sent to Firebase!");
-    }).catch((error) => {
-      console.error("❌ Error writing to Firebase:", error);
-      alert("Error writing to Firebase.");
-    });
-  }
 
