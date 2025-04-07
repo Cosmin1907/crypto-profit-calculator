@@ -174,7 +174,7 @@ async function calculateProfit() {
         let investmentFeePercent = parseFloat(feeRow.querySelector(".investmentFee").value) || 0;
         let exitFeePercent = parseFloat(feeRow.querySelector(".exitFee").value) || 0;
         let stillHolding = row.querySelector(".stillHolding").checked;
-        
+
         if (isNaN(investment) || investment <= 0) continue;
 
         if (stillHolding) {
@@ -192,7 +192,7 @@ async function calculateProfit() {
         let investmentFee = (investment * investmentFeePercent) / 100;
         let exitFee = (sellPrice * quantity * exitFeePercent) / 100;
         let profitLoss = (sellPrice - buyPrice) * quantity - investmentFee - exitFee;
-        
+
         totalProfitLoss += profitLoss;
         totalInvestment += investment;
         totalFees += investmentFee + exitFee;
@@ -230,7 +230,7 @@ async function calculateProfit() {
     totalHoldingsElement.innerText = `$${totalHoldings.toFixed(2)}`;
 
     updateLamboMeter(totalProfitLoss);
-    
+
 }
 
 // Function to fetch all coins from CoinGecko
@@ -368,22 +368,25 @@ function updateLamboMeter(profitLoss) {
 
 }
 
-// Add event listener for the "Calculate" button
-document.getElementById("nativeShareBtn").addEventListener("click", async () => {
-  if (navigator.share) {
-    try {
-      await navigator.share({
-        title: "Awesome App!",
-        text: "Check out this awesome app!",
-        url: window.location.href,
-      });
-    } catch (err) {
-      console.error("Sharing failed:", err);
-    }
-  } else {
-    alert("Your browser doesn't support native sharing. Try using the buttons below!");
-  }
+// Add event listener to the "copy-link" button
+
+document.getElementById("copy-link").addEventListener("click", function (e) {
+    e.preventDefault();
+
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        document.getElementById("copy-status").textContent = "Link copied!";
+    }).catch(() => {
+        document.getElementById("copy-status").textContent = "Failed to copy link";
+    });
+
+    // Optional: Clear message after 2 seconds
+    setTimeout(() => {
+        document.getElementById("copy-status").textContent = "";
+    }, 2000);
 });
+
+
 
 
 
