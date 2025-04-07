@@ -115,18 +115,20 @@ p {
     height: 200px;
     position: relative;
     border-radius: 50%;
-    background-color: black;
-    border: 4px solid #333;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
+    background: radial-gradient(circle at center, #1c1c1c, #000);
+    backdrop-filter: blur(4px);
+    border: 4px solid #444;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05), 0 0 10px rgba(0, 0, 0, 0.9);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .needle {
-    width: 4px;
-    height: 80px;
-    background-color: white;
+    width: 3px;
+    height: 85px;
+    background: linear-gradient(to top, red, orange);
+    box-shadow: 0 0 8px red;
     position: absolute;
     bottom: 50%;
     left: 50%;
@@ -139,7 +141,8 @@ p {
     content: '';
     width: 10px;
     height: 10px;
-    background-color: silver;
+    background-color: #fff;
+    box-shadow: 0 0 10px #0ff, 0 0 20px #0ff inset;
     position: absolute;
     bottom: 50%;
     left: 50%;
@@ -167,6 +170,7 @@ p {
     bottom: -15px;
     width: 40%;
     height: auto;
+    filter: drop-shadow(0 0 2px #ffcc00);
 }
 
 .meter-label {
