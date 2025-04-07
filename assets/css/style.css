@@ -255,57 +255,64 @@ p {
 
 /* Style for the share buttons */
 
-/* Base styles for native share and fallback icons */
-#nativeShareBtn,
-#fallbackShare a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 39px;
-  height: 39px;
-  margin: 5px;
-  text-decoration: none;
-  border-radius: 50%;
-  font-size: 1.25rem;
-  color: white;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* WhatsApp */
-#fallbackShare a:nth-child(1) {
-  background-color: #25d366;
-}
-
-/* Telegram */
-#fallbackShare a:nth-child(2) {
-  background-color: #0088cc;
-}
-
-/* Facebook */
-#fallbackShare a:nth-child(3) {
-  background-color: #4267B2;
-}
-
-/* Messenger */
-#fallbackShare a:nth-child(4) {
-  background-color: #0084FF;
-}
-
-/* LinkedIn */
-#fallbackShare a:nth-child(5) {
-  background-color: #0077B5;
-}
-
-/* Twitter (X) */
-#fallbackShare a:nth-child(6) {
-    background-color: #000; 
+/* Style for the share buttons */
+#shareButtons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
   }
-
-/* Add hover effect for a slick feel */
-#fallbackShare a:hover {
-  transform: scale(1.1);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
+  
+  #shareButtons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 39px;
+    height: 39px;
+    margin: 5px;
+    text-decoration: none;
+    border-radius: 50%;
+    font-size: 1.25rem; 
+    color: white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  /* WhatsApp */
+  #shareButtons a:nth-child(1) {
+    background-color: #25d366;
+  }
+  
+  /* Telegram */
+  #shareButtons a:nth-child(2) {
+    background-color: #0088cc;
+  }
+  
+  /* Facebook */
+  #shareButtons a:nth-child(3) {
+    background-color: #4267B2;
+  }
+  
+  /* Messenger */
+  #shareButtons a:nth-child(4) {
+    background-color: #0084FF;
+  }
+  
+  /* LinkedIn */
+  #shareButtons a:nth-child(5) {
+    background-color: #0077B5;
+  }
+  
+  /* X (formerly Twitter) */
+  #shareButtons a:nth-child(6) {
+    background-color: #000; /* Adjusted to black for X */
+  }
+  
+  /* Add hover effect for a slick feel */
+  #shareButtons a:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+  
 
 
 
