@@ -111,15 +111,15 @@ function addRow() {
             </div>
             <div class="col-12 col-md-2">
                 <label for="investment">Investment ($)</label>
-                <input type="number" id="investment" class="investment form-control" placeholder="Amount">
+                <input type="number" id="investment" class="investment form-control" placeholder="Amount" step="any">
             </div>
             <div class="col-12 col-md-2">
                 <label for="buyPrice">Buy Price ($)</label>
-                <input type="number" id="buyPrice" class="buyPrice form-control" placeholder="Buy Price">
+                <input type="number" id="buyPrice" class="buyPrice form-control" placeholder="Buy Price" step="any">
             </div>
             <div class="col-12 col-md-2">
                 <label for="sellPrice">Sell Price ($)</label>
-                <input type="number" id="sellPrice" class="sellPrice form-control" placeholder="Sell Price">
+                <input type="number" id="sellPrice" class="sellPrice form-control" placeholder="Sell Price" step="any">
             </div>
             <div id="holding-box" class="col-12 col-md-1">
                 <label for="${uniqueId}">Still Holding</label>
@@ -135,11 +135,11 @@ function addRow() {
         <div class="cryptoRow row mb-2" id="cryptoRowWrapper">
             <div class="col-12 col-md-2 offset-md-2">
                 <label for="investmentFee">Investment Fee (%)</label>
-                <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in %" value="0">
+                <input type="number" id="investmentFee" class="investmentFee form-control" placeholder="Investment Fee in %" value="0" step="any">
             </div>
             <div class="col-12 col-md-2">
                 <label for="exitFee">Exit Fee (%)</label>
-                <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0">
+                <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0" step="any">
             </div>
         </div>
     `;
