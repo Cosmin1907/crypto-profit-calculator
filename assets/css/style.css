@@ -36,6 +36,20 @@
     font-weight: bold;
 }
 
+/* Style for the Header */
+#header {
+    display: flex;
+    flex-direction: column;
+}
+
+.calc-text {
+    color: #f7931a;
+}
+
+#header img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
 /* Style for the headers */
 
 h1 {
@@ -207,6 +221,13 @@ p {
     padding: 1rem;
 }
 
+.share {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+
 /* Style for the articles  */
 
 .card-body {
@@ -257,7 +278,6 @@ p {
     font-family: "Courier New", monospace;
 }
 
-/* Style for the share buttons */
 
 /* Style for the share buttons */
 #shareButtons {
@@ -329,6 +349,11 @@ p {
         justify-content: flex-start;
         align-items: center;
     }
+    #header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
 }
 
 @media (min-width: 1024px) {
@@ -350,9 +375,9 @@ p {
         left: 62%;
     }
     .share {
-        display: flex;
-        gap: 1rem;
-        align-items: baseline;
+        flex-direction: row;
+        align-items: center;
+        gap: 1.5rem;
 
     }
 }
