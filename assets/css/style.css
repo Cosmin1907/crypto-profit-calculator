@@ -39,7 +39,8 @@
 /* Style for the Header */
 #header {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .calc-text {
@@ -351,11 +352,6 @@ p {
     #holding-box {
         flex-direction: column;
         justify-content: flex-start;
-        align-items: center;
-    }
-    #header {
-        flex-direction: row;
-        justify-content: space-between;
         align-items: center;
     }
 }
