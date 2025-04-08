@@ -386,7 +386,7 @@ function updateLamboMeter(profitLoss) {
         } else {
             meterLabel.innerText = 'R'; // Reverse state
             meterLabel.style.color = 'red';
-            gearText.innerText = "You're in Reverse! Be careful! ⚠️";
+            gearText.innerText = "You're driving in Reverse!!! Be careful! ⚠️⚠️⚠️";
         }
     });
 

@@ -199,7 +199,7 @@ p {
 
 .gear-label {
     position: absolute;
-    bottom: 39%;
+    bottom: 40%;
     left: 50%;
     transform: translateX(-50%);
     font-size: 20px;
@@ -208,11 +208,14 @@ p {
     backdrop-filter: blur(4px);
     padding: 0.5rem 1rem;
     border-radius: 10px;
+    max-height: 70px;
 }
 
-.gear {
-    padding-bottom: 30px;
+.gear p {
+    margin-bottom: 3.5rem;
 }
+
+
 
 .summary {
     display: flex;
@@ -374,6 +377,14 @@ p {
     .gear-label {
         bottom: 65%;
         left: 62%;
+        max-width: 170px;
+    }
+    .gear {
+        width: 200px;
+    }
+    .gear p {
+        text-align: right;
+        margin-bottom: 1.5rem;
     }
     .share {
         flex-direction: row;
