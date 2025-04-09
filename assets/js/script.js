@@ -85,8 +85,9 @@ async function fetchDataPeriodically() {
     console.log("📦 Data fetched and stored locally:", localData);
 }
 
-setInterval(fetchDataPeriodically, 600000);
-fetchDataPeriodically(); // Initial fetch
+// Set up periodic data fetching, but don't run it immediately
+// We'll run it manually in the window.onload function
+let dataFetchInterval;
 
 // Function to add a new entry row to an asset container
 function addEntryRow(button) {
@@ -327,8 +328,21 @@ async function calculateProfit() {
 }
 
 // Function to fetch all coins from Firebase instead of directly from the API
-async function fetchCoinList() {
+async function fetchCoinList(coins = null) {
     try {
+        // If coins are provided, use them directly
+        if (coins) {
+            console.log("✅ Using provided coin list.");
+            coinList = coins
+                .filter(coin => coin.symbol) // Ensure coin.symbol exists
+                .map(coin => ({
+                    id: coin.id,
+                    name: coin.name,
+                    symbol: coin.symbol.toUpperCase()
+                }));
+            return;
+        }
+        
         console.log("📥 Fetching coin list from Firebase...");
         const snapshot = await dbRef.get();
         const storedData = snapshot.val();
@@ -345,8 +359,8 @@ async function fetchCoinList() {
         } else {
             console.log("⚠️ No coin list found in Firebase. Fetching from API...");
             // Instead of calling fetchAndUpdateFirebase again, use the data from fetchData
-            const coins = await fetchData();
-            coinList = coins
+            const fetchedCoins = await fetchData();
+            coinList = fetchedCoins
                 .filter(coin => coin.symbol) // Ensure coin.symbol exists
                 .map(coin => ({
                     id: coin.id,
@@ -422,10 +436,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Wait for the DOM to be fully loaded before running the script
 window.onload = async function () {
-    // First fetch the data once
-    await fetchData();
-    // Then fetch the coin list (which will use the data we just fetched)
-    await fetchCoinList();
+    // Fetch data once and use it for both price data and coin list
+    const coins = await fetchData();
+    
+    // Store the data locally
+    localData = coins.reduce((acc, coin) => {
+        acc[coin.id] = {
+            currentPrice: coin.currentPrice
+        };
+        return acc;
+    }, {});
+    
+    console.log("📦 Data fetched and stored locally:", localData);
+    
+    // Use the same data for the coin list
+    await fetchCoinList(coins);
+    
     // Populate the dropdown with coins
     await populateCryptoSelect();
 
@@ -453,6 +479,10 @@ window.onload = async function () {
             container.appendChild(entryButtons);
         }
     });
+    
+    // Set up the interval for periodic data fetching
+    // This will run every 10 minutes (600000 ms)
+    dataFetchInterval = setInterval(fetchDataPeriodically, 600000);
 };
 
 // Add function to calculate Lambo
