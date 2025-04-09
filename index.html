@@ -85,7 +85,7 @@
                 </div>
                 <button class="xbutton btn btn-danger" onclick="removeRow(this)">X</button>
             </div>
-            <button id="toggleButton" class="btn btn-outline-info">Add Fees</button>
+            
             
             <!-- Changed the id to 'cryptoRowWrapper' -->
             <div class="cryptoRow row mb-2" id="cryptoRowWrapper">
@@ -98,6 +98,11 @@
                     <label for="exitFee">Exit Fee (%)</label>
                     <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0">
                 </div>
+            </div>
+            <div class="entry-buttons mb-2">
+                <button class="btn btn-primary" onclick="addEntryRow(this)">+ Add Entry</button>
+                <button class="btn btn-warning" onclick="removeLastEntry(this)">Delete Entry</button>
+                <button id="toggleButton" class="btn btn-outline-info">Add Fees</button>
             </div>
         </div>
     </div>
@@ -199,7 +204,7 @@
             <li><strong>Enter Investment Amount ($):</strong> Input the total amount of money you are investing.</li>
             <li><strong>Enter Buy Price ($):</strong> Provide the price at which you purchased the asset.</li>
             <li><strong>Enter Sell Price ($):</strong> Input the price at which you sold the asset (if applicable).</li>
-            <li><strong>Still Holding Checkbox:</strong> If you haven’t sold the asset yet, check this box. The calculator will then disregard the sell price.</li>
+            <li><strong>Still Holding Checkbox:</strong> If you haven't sold the asset yet, check this box. The calculator will then disregard the sell price.</li>
             <li><strong>Profit/Loss Display:</strong> This field automatically calculates and displays your profit or loss.</li>
             <li><strong>Add Fees (Optional):</strong> Click the "Add Fees" button to include investment and exit fees in percentage terms.</li>
         </ul>
@@ -404,7 +409,7 @@
             <p>Use profits to invest in Bitcoin mining equipment or stake cryptocurrencies to earn passive income while holding your assets.</p>
     
             <h6>💡 Invest in Emerging Opportunities</h6>
-            <p>Consider allocating a small portion of profits into high-risk, high-reward altcoins or decentralized finance (DeFi) projects if you’re comfortable with higher risks.</p>
+            <p>Consider allocating a small portion of profits into high-risk, high-reward altcoins or decentralized finance (DeFi) projects if you're comfortable with higher risks.</p>
     
             <h6>💡 Convert to Stablecoins</h6>
             <p>Protect gains by converting them into stablecoins like <strong>USDT</strong> or <strong>USDC</strong>, which are less volatile and can be reinvested later when opportunities arise.</p>
@@ -429,7 +434,7 @@
             <ul>
                 <li><a href="https://www.prestmit.com/blog/a-beginners-guide-to-taking-crypto-profits-and-reinvesting/" target="_blank">A Beginner's Guide To Taking Crypto Profits And Reinvesting - Prestmit</a></li>
                 <li><a href="https://cryptotaxcalculatoraustralia.com.au/crypto-tax-blog/a-beginners-guide-to-reinvesting-your-crypto-profits/" target="_blank">A Beginner's Guide to Reinvesting Your Crypto Profits - CTCA</a></li>
-                <li><a href="https://cointelegraph.com/learn/articles/a-beginners-guide-to-taking-crypto-profits-and-reinvesting" target="_blank">A Beginner’s Guide to Taking Crypto Profits and Reinvesting - Cointelegraph</a></li>
+                <li><a href="https://cointelegraph.com/learn/articles/a-beginners-guide-to-taking-crypto-profits-and-reinvesting" target="_blank">A Beginner's Guide to Taking Crypto Profits and Reinvesting - Cointelegraph</a></li>
                 <li><a href="https://blog.quidax.io/how-to-take-profits-and-re-invest-in-crypto/" target="_blank">How to Take Profits and Reinvest in Crypto - Quidax Blog</a></li>
                 <li><a href="https://www.wazirx.com/blog/best-things-to-do-with-your-crypto-profits-should-you-reinvest/" target="_blank">Best Things to Do With Your Crypto Profits - WazirX Blog</a></li>
                 <li><a href="https://supplychaingamechanger.com/should-you-reinvest-your-crypto-gains/" target="_blank">Should You Reinvest Your Crypto Gains? - Supply Chain Game Changer</a></li>
@@ -472,12 +477,12 @@
 
         <h5>6. Avoid Emotional Decisions</h5>
         <ul>
-            <li><strong>Don’t Panic Sell:</strong> Avoid making decisions based on emotions. Stay calm during market fluctuations and stick to your strategy.</li>
+            <li><strong>Don't Panic Sell:</strong> Avoid making decisions based on emotions. Stay calm during market fluctuations and stick to your strategy.</li>
         </ul>
 
         <h5>7. Do Your Own Research (DYOR)</h5>
         <ul>
-            <li><strong>Research Projects:</strong> Before investing, thoroughly research the cryptocurrency’s fundamentals, including its utility, team, and adoption potential.</li>
+            <li><strong>Research Projects:</strong> Before investing, thoroughly research the cryptocurrency's fundamentals, including its utility, team, and adoption potential.</li>
         </ul>
 
         <p>By following these tips, you can approach cryptocurrency investing with a clearer understanding of the risks and opportunities involved.</p>

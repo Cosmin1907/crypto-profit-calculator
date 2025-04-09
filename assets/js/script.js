@@ -88,6 +88,64 @@ async function fetchDataPeriodically() {
 setInterval(fetchDataPeriodically, 600000);
 fetchDataPeriodically(); // Initial fetch
 
+// Function to add a new entry row to an asset container
+function addEntryRow(button) {
+    const assetContainer = button.closest('.assetContainer');
+    const cryptoRow = assetContainer.querySelector('.cryptoRow');
+    const uniqueId = `stillHolding-${Date.now()}`;
+    
+    // Create a new row with the same structure as the original but without the asset selection
+    const newRow = document.createElement('div');
+    newRow.className = 'cryptoRow row mb-2 entry-row';
+    newRow.innerHTML = `
+        <div class="col-12 col-md-2">
+            <label>Asset</label>
+            <div class="form-control bg-light text-muted" style="opacity: 0.7;">${cryptoRow.querySelector('.crypto-select option:checked').text}</div>
+        </div>
+        <div class="col-12 col-md-2">
+            <label for="investment">Investment ($)</label>
+            <input type="number" id="investment" class="investment form-control" placeholder="Amount" step="any">
+        </div>
+        <div class="col-12 col-md-2">
+            <label for="buyPrice">Buy Price ($)</label>
+            <input type="number" id="buyPrice" class="buyPrice form-control" placeholder="Buy Price" step="any">
+        </div>
+        <div class="col-12 col-md-2">
+            <label for="sellPrice">Sell Price ($)</label>
+            <input type="number" id="sellPrice" class="sellPrice form-control" placeholder="Sell Price" step="any">
+        </div>
+        <div id="holding-box" class="col-12 col-md-1">
+            <label for="${uniqueId}">Still Holding</label>
+            <input type="checkbox" id="${uniqueId}" class="stillHolding form-control" onchange="toggleSellFields(this)">
+        </div>
+        <div class="col-12 col-md-2">
+            <label for="profitLoss">Profit/Loss</label>
+            <div id="profitLoss" class="profitLoss text-muted">-</div>
+        </div>
+        <button class="xbutton btn btn-danger" onclick="removeEntryRow(this)">X</button>
+    `;
+    
+    // Insert the new row after the original row but before the fees row
+    const feesRow = assetContainer.querySelector('#cryptoRowWrapper');
+    cryptoRow.parentNode.insertBefore(newRow, feesRow);
+}
+
+// Function to remove a specific entry row
+function removeEntryRow(button) {
+    const row = button.closest('.entry-row');
+    row.remove();
+}
+
+// Function to remove the last entry row from an asset container
+function removeLastEntry(button) {
+    const assetContainer = button.closest('.assetContainer');
+    const entryRows = assetContainer.querySelectorAll('.entry-row');
+    
+    if (entryRows.length > 0) {
+        entryRows[entryRows.length - 1].remove();
+    }
+}
+
 // Function to add more rows for multiple assets
 function addRow() {
     let container = document.getElementById("cryptoContainer");
@@ -131,7 +189,6 @@ function addRow() {
             </div>
             <button class="xbutton btn btn-danger" onclick="removeRow(this)">X</button>
         </div>
-        <button id="toggleButton" class="btn btn-outline-info">Add Fees</button>
         <div class="cryptoRow row mb-2" id="cryptoRowWrapper">
             <div class="col-12 col-md-2 offset-md-2">
                 <label for="investmentFee">Investment Fee (%)</label>
@@ -141,6 +198,11 @@ function addRow() {
                 <label for="exitFee">Exit Fee (%)</label>
                 <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0" step="any">
             </div>
+        </div>
+        <div class="entry-buttons mb-2">
+                <button class="btn btn-primary" onclick="addEntryRow(this)">+ Add Entry</button>
+                <button class="btn btn-warning" onclick="removeLastEntry(this)">Delete Entry</button>
+                <button id="toggleButton" class="btn btn-outline-info">Add Fees</button>
         </div>
     `;
 
@@ -169,55 +231,76 @@ function getCurrentPriceFromLocalData(asset) {
 
 // Function to calculate profit/loss
 async function calculateProfit() {
-    let rows = document.querySelectorAll(".cryptoRow");
+    let assetContainers = document.querySelectorAll(".assetContainer");
     let totalProfitLoss = 0;
     let totalInvestment = 0;
     let totalFees = 0;
     let totalHoldings = 0;
 
-    for (let i = 0; i < rows.length; i += 2) {
-        let row = rows[i];
-        let feeRow = rows[i + 1];
-        let asset = row.querySelector(".crypto-select").value;
-        let investment = parseFloat(row.querySelector(".investment").value);
-        let buyPrice = parseFloat(row.querySelector(".buyPrice").value);
-        let sellPrice = parseFloat(row.querySelector(".sellPrice").value);
+    for (let container of assetContainers) {
+        let rows = container.querySelectorAll(".cryptoRow");
+        let assetProfitLoss = 0;
+        let assetInvestment = 0;
+        let assetFees = 0;
+        let assetHoldings = 0;
+        
+        // Get the fee row (last row in the container)
+        let feeRow = container.querySelector('#cryptoRowWrapper');
         let investmentFeePercent = parseFloat(feeRow.querySelector(".investmentFee").value) || 0;
         let exitFeePercent = parseFloat(feeRow.querySelector(".exitFee").value) || 0;
-        let stillHolding = row.querySelector(".stillHolding").checked;
+        
+        // Get the asset ID from the first row
+        let assetId = container.querySelector(".crypto-select").value;
+        
+        // Process all rows except the fee row
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i].id === 'cryptoRowWrapper') continue; // Skip the fee row
+            
+            let row = rows[i];
+            let investment = parseFloat(row.querySelector(".investment").value);
+            let buyPrice = parseFloat(row.querySelector(".buyPrice").value);
+            let sellPrice = parseFloat(row.querySelector(".sellPrice").value);
+            let stillHolding = row.querySelector(".stillHolding").checked;
 
-        if (isNaN(investment) || investment <= 0) continue;
+            if (isNaN(investment) || investment <= 0) continue;
 
-        if (stillHolding) {
-            sellPrice = getCurrentPriceFromLocalData(asset);
+            if (stillHolding) {
+                sellPrice = getCurrentPriceFromLocalData(assetId);
+            }
+
+            if (buyPrice <= 0 || sellPrice <= 0) {
+                row.querySelector(".profitLoss").innerText = "Invalid price data";
+                row.querySelector(".profitLoss").classList.remove("text-success", "text-danger");
+                row.querySelector(".profitLoss").classList.add("text-muted");
+                continue;
+            }
+
+            let quantity = investment / buyPrice;
+            let investmentFee = (investment * investmentFeePercent) / 100;
+            let exitFee = (sellPrice * quantity * exitFeePercent) / 100;
+            let profitLoss = (sellPrice - buyPrice) * quantity - investmentFee - exitFee;
+
+            assetProfitLoss += profitLoss;
+            assetInvestment += investment;
+            assetFees += investmentFee + exitFee;
+            assetHoldings += sellPrice * quantity;
+
+            row.querySelector(".profitLoss").innerText = `$${profitLoss.toFixed(2)}`;
+            row.querySelector(".profitLoss").classList.remove("text-muted");
+            if (profitLoss >= 0) {
+                row.querySelector(".profitLoss").classList.add("text-success");
+                row.querySelector(".profitLoss").classList.remove("text-danger");
+            } else {
+                row.querySelector(".profitLoss").classList.add("text-danger");
+                row.querySelector(".profitLoss").classList.remove("text-success");
+            }
         }
-
-        if (buyPrice <= 0 || sellPrice <= 0) {
-            row.querySelector(".profitLoss").innerText = "Invalid price data";
-            row.querySelector(".profitLoss").classList.remove("text-success", "text-danger");
-            row.querySelector(".profitLoss").classList.add("text-muted");
-            continue;
-        }
-
-        let quantity = investment / buyPrice;
-        let investmentFee = (investment * investmentFeePercent) / 100;
-        let exitFee = (sellPrice * quantity * exitFeePercent) / 100;
-        let profitLoss = (sellPrice - buyPrice) * quantity - investmentFee - exitFee;
-
-        totalProfitLoss += profitLoss;
-        totalInvestment += investment;
-        totalFees += investmentFee + exitFee;
-        totalHoldings += sellPrice * quantity;
-
-        row.querySelector(".profitLoss").innerText = `$${profitLoss.toFixed(2)}`;
-        row.querySelector(".profitLoss").classList.remove("text-muted");
-        if (profitLoss >= 0) {
-            row.querySelector(".profitLoss").classList.add("text-success");
-            row.querySelector(".profitLoss").classList.remove("text-danger");
-        } else {
-            row.querySelector(".profitLoss").classList.add("text-danger");
-            row.querySelector(".profitLoss").classList.remove("text-success");
-        }
+        
+        // Add this asset's totals to the overall totals
+        totalProfitLoss += assetProfitLoss;
+        totalInvestment += assetInvestment;
+        totalFees += assetFees;
+        totalHoldings += assetHoldings;
     }
 
     let totalProfitLossElement = document.getElementById("totalProfitLoss");
@@ -241,7 +324,6 @@ async function calculateProfit() {
     totalHoldingsElement.innerText = `$${totalHoldings.toFixed(2)}`;
 
     updateLamboMeter(totalProfitLoss);
-
 }
 
 // Function to fetch all coins from Firebase instead of directly from the API
@@ -343,6 +425,22 @@ window.onload = async function () {
     selects.forEach(select => {
         select.addEventListener("click", () => populateCryptoSelect(select));
         select.addEventListener("input", filterCryptoOptions);
+    });
+    
+    // Add entry buttons to existing asset containers
+    const assetContainers = document.querySelectorAll(".assetContainer");
+    assetContainers.forEach(container => {
+        if (!container.querySelector('.entry-buttons')) {
+            const entryButtons = document.createElement('div');
+            entryButtons.className = 'entry-buttons mb-2';
+            entryButtons.innerHTML = `
+                <button class="btn btn-success" onclick="addEntryRow(this)">+ Add Entry</button>
+                <button class="btn btn-warning" onclick="removeLastEntry(this)">- Delete Last Entry</button>
+            `;
+            
+            // Add the buttons at the bottom of the container
+            container.appendChild(entryButtons);
+        }
     });
 };
 
