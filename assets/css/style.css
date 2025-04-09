@@ -73,7 +73,8 @@ button.btn {
     font-weight: bold;
 }
 
-.buttons {
+.buttons,
+.entry-buttons {
     display: flex;
     gap: 1rem;
     flex-direction: column;
@@ -361,9 +362,11 @@ p {
         order: 1; /* Move to the end */
     }
 
-    .buttons {
+    .buttons,
+    .entry-buttons {
         flex-direction: row;
     }
+
     .summary {
         display: flex;
         flex-direction: row;

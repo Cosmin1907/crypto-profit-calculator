@@ -199,10 +199,10 @@ function addRow() {
                 <input type="number" id="exitFee" class="exitFee form-control" placeholder="Exit Fee in %" value="0" step="any">
             </div>
         </div>
-        <div class="entry-buttons mb-2">
-                <button class="btn btn-primary" onclick="addEntryRow(this)">+ Add Entry</button>
-                <button class="btn btn-warning" onclick="removeLastEntry(this)">Delete Entry</button>
-                <button id="toggleButton" class="btn btn-outline-info">Add Fees</button>
+        <div class="buttons">
+                <button class="btn btn-primary w-100 w-md-auto" onclick="addEntryRow(this)">+ Add Entry</button>
+                <button class="btn btn-warning w-100 w-md-auto" onclick="removeLastEntry(this)">Delete Entry</button>
+                <button id="toggleButton" class="btn btn-outline-info w-100 w-md-auto">Add Fees</button>
         </div>
     `;
 
@@ -432,7 +432,7 @@ window.onload = async function () {
     assetContainers.forEach(container => {
         if (!container.querySelector('.entry-buttons')) {
             const entryButtons = document.createElement('div');
-            entryButtons.className = 'entry-buttons mb-2';
+            entryButtons.className = 'entry-buttons';
             entryButtons.innerHTML = `
                 <button class="btn btn-success" onclick="addEntryRow(this)">+ Add Entry</button>
                 <button class="btn btn-warning" onclick="removeLastEntry(this)">- Delete Last Entry</button>
