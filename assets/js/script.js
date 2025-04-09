@@ -7,18 +7,18 @@ const dbRef = firebase.database().ref("coinData");
 
 const API_URL = `${API_BASE}/coins/markets?vs_currency=usd&per_page=250&page=1`;
 
-// Function to clear Firebase data
-async function clearFirebaseData() {
-    try {
-        await dbRef.set(null);
-        console.log("🗑️ Firebase data cleared.");
-    } catch (error) {
-        console.error("❌ Error clearing Firebase data:", error);
-    }
-}
+// Function to clear Firebase data - commented out to prevent unnecessary clearing
+// async function clearFirebaseData() {
+//     try {
+//         await dbRef.set(null);
+//         console.log("🗑️ Firebase data cleared.");
+//     } catch (error) {
+//         console.error("❌ Error clearing Firebase data:", error);
+//     }
+// }
 
-// Call the function to clear Firebase data
-clearFirebaseData();
+// Call the function to clear Firebase data - commented out
+// clearFirebaseData();
 
 async function fetchData() {
     try {
@@ -344,8 +344,15 @@ async function fetchCoinList() {
                 }));
         } else {
             console.log("⚠️ No coin list found in Firebase. Fetching from API...");
-            await fetchAndUpdateFirebase(); // Fetch from API and update Firebase
-            await fetchCoinList(); // Retry fetching from Firebase
+            // Instead of calling fetchAndUpdateFirebase again, use the data from fetchData
+            const coins = await fetchData();
+            coinList = coins
+                .filter(coin => coin.symbol) // Ensure coin.symbol exists
+                .map(coin => ({
+                    id: coin.id,
+                    name: coin.name,
+                    symbol: coin.symbol.toUpperCase()
+                }));
         }
     } catch (error) {
         console.error("❌ Error fetching coin list from Firebase:", error);
@@ -415,8 +422,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Wait for the DOM to be fully loaded before running the script
 window.onload = async function () {
-    await fetchCoinList();         // Fetch the coin list once
-    await populateCryptoSelect();  // Populate the dropdown with coins
+    // First fetch the data once
+    await fetchData();
+    // Then fetch the coin list (which will use the data we just fetched)
+    await fetchCoinList();
+    // Populate the dropdown with coins
+    await populateCryptoSelect();
 
     // Get all dropdown elements by their class
     const selects = document.querySelectorAll(".crypto-select");
@@ -484,7 +495,7 @@ function updateLamboMeter(profitLoss) {
         } else {
             meterLabel.innerText = 'R'; // Reverse state
             meterLabel.style.color = 'red';
-            gearText.innerText = "You're driving in Reverse!!! Be careful! ⚠️⚠️⚠️";
+            gearText.innerText = "You're driving in Reverse!!! Be careful! ⚠️";
         }
     });
 
