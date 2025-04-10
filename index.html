@@ -58,10 +58,12 @@
             <div class="cryptoRow row mb-2">
                 <div class="col-12 col-md-2">
                     <label for="cryptoSelect">Asset</label>
-                    <select id="cryptoSelect" class="crypto-select form-control" onclick="populateCryptoSelect(this)">
-                        <option value="" disabled selected>Select Asset</option>
-                        <!-- Options will be populated dynamically -->
-                    </select>
+                    <div class="crypto-select-container position-relative">
+                        <input type="text" id="cryptoSelect" class="crypto-select form-control" placeholder="Search Asset" autocomplete="off">
+                        <div class="crypto-dropdown dropdown-menu w-100" style="display: none; max-height: 200px; overflow-y: auto;">
+                            <!-- Options will be populated dynamically -->
+                        </div>
+                    </div>
                 </div>
                 <div class="col-12 col-md-2">
                     <label for="investment">Investment ($)</label>

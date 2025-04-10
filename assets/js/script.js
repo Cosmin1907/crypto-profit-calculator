@@ -101,7 +101,7 @@ function addEntryRow(button) {
     newRow.innerHTML = `
         <div class="col-12 col-md-2">
             <label>Asset</label>
-            <div class="form-control bg-light text-muted" style="opacity: 0.7;">${cryptoRow.querySelector('.crypto-select option:checked').text}</div>
+            <div class="form-control bg-light text-muted" style="opacity: 0.7;">${cryptoRow.querySelector('.crypto-select').value}</div>
         </div>
         <div class="col-12 col-md-2">
             <label for="investment">Investment ($)</label>
@@ -163,10 +163,12 @@ function addRow() {
         <div class="cryptoRow row mb-2">
             <div class="col-12 col-md-2">
                 <label for="cryptoSelect">Asset</label>
-                <select id="cryptoSelect" class="crypto-select form-control" onclick="populateCryptoSelect(this)">
-                    <option value="" disabled selected>Select Asset</option>
-                    <!-- Options will be populated dynamically -->
-                </select>
+                <div class="crypto-select-container position-relative">
+                    <input type="text" id="cryptoSelect" class="crypto-select form-control" placeholder="Search Asset" autocomplete="off">
+                    <div class="crypto-dropdown dropdown-menu w-100" style="display: none; max-height: 200px; overflow-y: auto;">
+                        <!-- Options will be populated dynamically -->
+                    </div>
+                </div>
             </div>
             <div class="col-12 col-md-2">
                 <label for="investment">Investment ($)</label>
@@ -212,11 +214,11 @@ function addRow() {
 
     // Attach event listener to the new dropdown
     let newSelect = assetContainer.querySelector(".crypto-select");
-    newSelect.addEventListener("click", () => populateCryptoSelect(newSelect));
+    newSelect.addEventListener("click", () => populateCryptoSelect(newSelect, true));
     newSelect.addEventListener("input", filterCryptoOptions);
 
-    // Populate the new dropdown with coins
-    populateCryptoSelect(newSelect);
+    // Populate the new dropdown with coins (but don't show it)
+    populateCryptoSelect(newSelect, false);
 }
 
 // Function to remove a row
@@ -251,7 +253,7 @@ async function calculateProfit() {
         let exitFeePercent = parseFloat(feeRow.querySelector(".exitFee").value) || 0;
         
         // Get the asset ID from the first row
-        let assetId = container.querySelector(".crypto-select").value;
+        let assetId = container.querySelector(".crypto-select").dataset.id;
         
         // Process all rows except the fee row
         for (let i = 0; i < rows.length; i++) {
@@ -374,35 +376,96 @@ async function fetchCoinList(coins = null) {
 }
 
 // Function to populate the dropdown with the coin list
-function populateCryptoSelect(selectElement = null) {
+function populateCryptoSelect(selectElement = null, showDropdown = false) {
     if (!selectElement) return; // Ensure selectElement is not null
 
-    const selectedValue = selectElement.value; // Store the current selected value
-
-    // If a specific select element is provided, populate only that one
-    selectElement.innerHTML = "<option value='' disabled>Select Asset</option>";
+    // Get the dropdown container
+    const dropdownContainer = selectElement.closest('.crypto-select-container');
+    if (!dropdownContainer) return;
+    
+    const dropdown = dropdownContainer.querySelector('.crypto-dropdown');
+    if (!dropdown) return;
+    
+    // Clear existing options
+    dropdown.innerHTML = '';
+    
+    // Add options to the dropdown
     coinList.forEach(coin => {
-        const option = document.createElement("option");
-        option.value = coin.id;
+        const option = document.createElement('div');
+        option.className = 'dropdown-item';
+        option.dataset.id = coin.id;
+        option.dataset.name = coin.name;
+        option.dataset.symbol = coin.symbol;
         option.textContent = `${coin.name} (${coin.symbol})`;
-        selectElement.appendChild(option);
+        
+        // Add click event to select the option
+        option.addEventListener('click', () => {
+            selectElement.value = `${coin.name} (${coin.symbol})`;
+            selectElement.dataset.id = coin.id;
+            dropdown.style.display = 'none';
+        });
+        
+        dropdown.appendChild(option);
     });
-    selectElement.value = selectedValue; // Restore the selected value
+    
+    // Show the dropdown only if showDropdown is true
+    if (showDropdown) {
+        dropdown.style.display = 'block';
+    } else {
+        dropdown.style.display = 'none';
+    }
 }
 
 // Function to filter the options based on user input
 function filterCryptoOptions(event) {
-    const query = event.target.value.toUpperCase();
-    const options = event.target.querySelectorAll("option");
-
+    const query = event.target.value.trim().toUpperCase();
+    const dropdownContainer = event.target.closest('.crypto-select-container');
+    if (!dropdownContainer) return;
+    
+    const dropdown = dropdownContainer.querySelector('.crypto-dropdown');
+    if (!dropdown) return;
+    
+    const options = dropdown.querySelectorAll('.dropdown-item');
+    let hasVisibleOptions = false;
+    
     options.forEach(option => {
         const text = option.textContent.toUpperCase();
-        if (text.includes(query)) {
+        
+        // Check if the option text contains the query
+        if (query === "" || text.includes(query)) {
             option.style.display = "";
+            hasVisibleOptions = true;
         } else {
             option.style.display = "none";
         }
     });
+    
+    // If no options are visible and there's a query, show a "No results found" option
+    if (!hasVisibleOptions && query !== "") {
+        // Check if "No results found" option already exists
+        let noResultsOption = dropdown.querySelector('.no-results');
+        
+        if (!noResultsOption) {
+            // Create a new "No results found" option
+            noResultsOption = document.createElement('div');
+            noResultsOption.className = 'dropdown-item no-results';
+            noResultsOption.textContent = "No results found";
+            dropdown.appendChild(noResultsOption);
+        } else {
+            noResultsOption.style.display = "";
+        }
+    } else {
+        // Remove "No results found" option if it exists
+        const noResultsOption = dropdown.querySelector('.no-results');
+        if (noResultsOption) {
+            noResultsOption.remove();
+        }
+    }
+    
+    // Show the dropdown if there's a query
+    if (query !== "") {
+        dropdown.style.display = 'block';
+    }
 }
 
 // Function to toggle the sell price field based on the still holding checkbox
@@ -460,8 +523,22 @@ window.onload = async function () {
 
     // Add an event listener to each dropdown for filtering options
     selects.forEach(select => {
-        select.addEventListener("click", () => populateCryptoSelect(select));
+        // Show dropdown on focus
+        select.addEventListener("focus", () => populateCryptoSelect(select, true));
+        
+        // Filter options as user types
         select.addEventListener("input", filterCryptoOptions);
+    });
+    
+    // Add a global click event listener to close dropdowns when clicking outside
+    document.addEventListener("click", (e) => {
+        // Check if the click is outside any crypto-select-container
+        if (!e.target.closest('.crypto-select-container')) {
+            // Close all dropdowns
+            document.querySelectorAll('.crypto-dropdown').forEach(dropdown => {
+                dropdown.style.display = 'none';
+            });
+        }
     });
     
     // Add entry buttons to existing asset containers
