@@ -24,30 +24,43 @@
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
-            "@type": "Website",
-            "@id": "https://cryptoprofitlosscalculator.com/#website",
-            "url": "https://cryptoprofitlosscalculator.com/",
-            "name": "Crypto Profit Loss Calculator",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": "https://cryptoprofitlosscalculator.com/?s={search_term_string}",
-              "query-input": "required name=search_term_string"
-            }
-          }
-    </script>
-
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "@id": "https://cryptoprofitlosscalculator.com/#webpage",
-            "url": "https://cryptoprofitlosscalculator.com/",
-            "name": "Crypto Profit Loss Calculator",
-            "description": "This calculator helps you determine your profit or loss from cryptocurrency investments by considering key variables such as your initial investment, buy price, sell price, and optional fees.",
-            "inLanguage": "en-US",
-            "isPartOf": {
-              "@id": "https://cryptoprofitlosscalculator.com/#website"
-            }
+            "@graph": [
+              {
+                "@type": "Website",
+                "@id": "https://cryptoprofitlosscalculator.com/#website",
+                "url": "https://cryptoprofitlosscalculator.com/",
+                "name": "Crypto Profit Loss Calculator",
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": "https://cryptoprofitlosscalculator.com/?s={search_term_string}",
+                  "query-input": "required name=search_term_string"
+                }
+              },
+              {
+                "@type": "WebPage",
+                "@id": "https://cryptoprofitlosscalculator.com/#webpage",
+                "url": "https://cryptoprofitlosscalculator.com/",
+                "name": "Crypto Profit Loss Calculator",
+                "description": "This calculator helps you determine your profit or loss from cryptocurrency investments by considering key variables such as your initial investment, buy price, sell price, and optional fees.",
+                "inLanguage": "en-US",
+                "isPartOf": {
+                  "@id": "https://cryptoprofitlosscalculator.com/#website"
+                }
+              },
+              {
+                "@type": "SoftwareApplication",
+                "@id": "https://cryptoprofitlosscalculator.com/#calculator",
+                "name": "Crypto Profit Loss Calculator",
+                "applicationCategory": "FinanceApplication",
+                "operatingSystem": "All",
+                "url": "https://cryptoprofitlosscalculator.com/",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "0",
+                  "priceCurrency": "USD"
+                }
+              }
+            ]
           }
     </script>
     <!-- Favicon -->
