@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords"
         content="Crypto Calculator, profit loss calculator, bitcoin profit calculator, cryptocurrency profit, crypto loss calculation">
+    
+    <!-- Add this script to handle query parameters -->
+    <script>
+        // Check if URL has query parameters
+        if (window.location.search.length > 0) {
+            // Create a meta robots tag
+            var metaRobots = document.createElement('meta');
+            metaRobots.name = 'robots';
+            metaRobots.content = 'noindex, nofollow';
+            document.head.appendChild(metaRobots);
+        }
+    </script>
+    
+    <!-- Add canonical tag -->
+    <link rel="canonical" href="https://cryptoprofitlosscalculator.com/" />
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content="Crypto Profit Loss Calculator" />
     <meta property="og:description" content="Easily calculate your crypto gains or losses." />

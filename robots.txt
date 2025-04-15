@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /*?*
+
+# Allow main pages
+Allow: /$
+Allow: /index.html$
