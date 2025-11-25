@@ -232,6 +232,175 @@ function getCurrentPriceFromLocalData(asset) {
     return localData[asset]?.currentPrice || 0;
 }
 
+// Function to collect all calculation data from the DOM
+function collectCalculationData() {
+    let assetContainers = document.querySelectorAll(".assetContainer");
+    let data = {
+        timestamp: new Date().toISOString(),
+        entries: [],
+        portfolioSummary: {
+            totalInvestment: 0,
+            totalFees: 0,
+            totalHoldings: 0,
+            totalProfitLoss: 0
+        }
+    };
+
+    // Get portfolio summary from DOM
+    const totalInvestmentText = document.getElementById("totalInvestment").innerText;
+    const totalFeesText = document.getElementById("totalFees").innerText;
+    const totalHoldingsText = document.getElementById("totalHoldings").innerText;
+    const totalProfitLossText = document.getElementById("totalProfitLoss").innerText;
+
+    data.portfolioSummary.totalInvestment = parseFloat(totalInvestmentText.replace('$', '').replace(',', '')) || 0;
+    data.portfolioSummary.totalFees = parseFloat(totalFeesText.replace('$', '').replace(',', '')) || 0;
+    data.portfolioSummary.totalHoldings = parseFloat(totalHoldingsText.replace('$', '').replace(',', '')) || 0;
+    data.portfolioSummary.totalProfitLoss = parseFloat(totalProfitLossText.replace('$', '').replace(',', '')) || 0;
+
+    assetContainers.forEach((container) => {
+        let rows = container.querySelectorAll(".cryptoRow");
+        let feeRow = container.querySelector('#cryptoRowWrapper');
+        let investmentFeePercent = parseFloat(feeRow.querySelector(".investmentFee").value) || 0;
+        let exitFeePercent = parseFloat(feeRow.querySelector(".exitFee").value) || 0;
+        
+        let assetSelect = container.querySelector(".crypto-select");
+        let assetName = assetSelect.value || "Unknown";
+        let assetId = assetSelect.dataset.id || "";
+
+        rows.forEach((row) => {
+            if (row.id === 'cryptoRowWrapper') return; // Skip fee row
+
+            let investmentInput = row.querySelector(".investment");
+            let buyPriceInput = row.querySelector(".buyPrice");
+            let sellPriceInput = row.querySelector(".sellPrice");
+            let stillHoldingCheckbox = row.querySelector(".stillHolding");
+            let profitLossElement = row.querySelector(".profitLoss");
+
+            if (!investmentInput || !buyPriceInput || !sellPriceInput || !stillHoldingCheckbox) return;
+
+            let investment = parseFloat(investmentInput.value);
+            let buyPrice = parseFloat(buyPriceInput.value);
+            let sellPrice = parseFloat(sellPriceInput.value);
+            let stillHolding = stillHoldingCheckbox.checked;
+
+            if (isNaN(investment) || investment <= 0) return;
+
+            if (stillHolding) {
+                sellPrice = getCurrentPriceFromLocalData(assetId);
+            }
+
+            if (buyPrice > 0 && sellPrice > 0) {
+                let quantity = investment / buyPrice;
+                let investmentFee = (investment * investmentFeePercent) / 100;
+                let exitFee = (sellPrice * quantity * exitFeePercent) / 100;
+                let profitLoss = (sellPrice - buyPrice) * quantity - investmentFee - exitFee;
+
+                data.entries.push({
+                    asset: assetName,
+                    assetId: assetId,
+                    investment: investment,
+                    buyPrice: buyPrice,
+                    sellPrice: sellPrice,
+                    quantity: quantity,
+                    stillHolding: stillHolding,
+                    investmentFeePercent: investmentFeePercent,
+                    exitFeePercent: exitFeePercent,
+                    investmentFee: investmentFee,
+                    exitFee: exitFee,
+                    profitLoss: profitLoss
+                });
+            }
+        });
+    });
+
+    return data;
+}
+
+// Function to escape CSV values (handles commas, quotes, and newlines)
+function escapeCSV(value) {
+    if (value === null || value === undefined) return '';
+    const stringValue = String(value);
+    // If value contains comma, quote, or newline, wrap in quotes and escape internal quotes
+    if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
+        return '"' + stringValue.replace(/"/g, '""') + '"';
+    }
+    return stringValue;
+}
+
+// Function to generate CSV string from data object
+function generateCSV(data) {
+    // CSV Header
+    let csv = "Asset,Investment ($),Buy Price ($),Sell Price ($),Quantity,Still Holding,Investment Fee (%),Exit Fee (%),Investment Fee ($),Exit Fee ($),Profit/Loss ($)\n";
+    
+    // CSV Rows for entries
+    data.entries.forEach(entry => {
+        csv += escapeCSV(entry.asset) + ",";
+        csv += entry.investment + ",";
+        csv += entry.buyPrice + ",";
+        csv += entry.sellPrice + ",";
+        csv += entry.quantity.toFixed(8) + ",";
+        csv += (entry.stillHolding ? "Yes" : "No") + ",";
+        csv += entry.investmentFeePercent + ",";
+        csv += entry.exitFeePercent + ",";
+        csv += entry.investmentFee.toFixed(2) + ",";
+        csv += entry.exitFee.toFixed(2) + ",";
+        csv += entry.profitLoss.toFixed(2) + "\n";
+    });
+    
+    // Portfolio Summary section
+    csv += "\nPortfolio Summary\n";
+    csv += "Total Investment ($)," + data.portfolioSummary.totalInvestment.toFixed(2) + "\n";
+    csv += "Total Fees ($)," + data.portfolioSummary.totalFees.toFixed(2) + "\n";
+    csv += "Total Holdings ($)," + data.portfolioSummary.totalHoldings.toFixed(2) + "\n";
+    csv += "Total Profit/Loss ($)," + data.portfolioSummary.totalProfitLoss.toFixed(2) + "\n";
+    
+    return csv;
+}
+
+// Function to download calculation data as CSV
+function downloadCSV() {
+    try {
+        // Collect calculation data
+        const data = collectCalculationData();
+        
+        // Validate that data exists
+        if (!data.entries || data.entries.length === 0) {
+            alert("No calculation data available. Please run calculations first.");
+            return;
+        }
+        
+        // Generate CSV content
+        const csvContent = generateCSV(data);
+        
+        // Create Blob with CSV content
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        
+        // Create download link
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        
+        // Generate filename with current date
+        const today = new Date();
+        const dateString = today.toISOString().split('T')[0]; // YYYY-MM-DD format
+        const filename = `crypto-calculator-${dateString}.csv`;
+        
+        link.setAttribute("href", url);
+        link.setAttribute("download", filename);
+        link.style.visibility = 'hidden';
+        
+        // Trigger download
+        document.body.appendChild(link);
+        link.click();
+        
+        // Clean up
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error("Error downloading CSV:", error);
+        alert("An error occurred while downloading the CSV file. Please try again.");
+    }
+}
+
 // Function to calculate profit/loss
 async function calculateProfit() {
     let assetContainers = document.querySelectorAll(".assetContainer");
@@ -327,6 +496,12 @@ async function calculateProfit() {
     totalHoldingsElement.innerText = `$${totalHoldings.toFixed(2)}`;
 
     updateLamboMeter(totalProfitLoss);
+
+    // Enable download button after calculation
+    const downloadButton = document.getElementById("downloadCSV");
+    if (downloadButton) {
+        downloadButton.disabled = false;
+    }
 }
 
 // Function to fetch all coins from Firebase instead of directly from the API
