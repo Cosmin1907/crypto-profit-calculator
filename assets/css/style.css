@@ -401,3 +401,122 @@ p {
         left: 65%;
     }
 }
+
+/* FAQ Accordion Styles */
+#faqAccordion .card {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+#faqAccordion .card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 0;
+}
+
+#faqAccordion .card-header .btn-link {
+    color: #333;
+    text-decoration: none;
+    font-weight: 600;
+    width: 100%;
+    text-align: left;
+    padding: 1rem 1.25rem;
+    position: relative;
+}
+
+#faqAccordion .card-header .btn-link:hover {
+    color: #f7931a;
+    text-decoration: none;
+}
+
+#faqAccordion .card-header .btn-link:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+#faqAccordion .card-header .btn-link::after {
+    content: '\f078';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 1.25rem;
+    transition: transform 0.3s ease;
+}
+
+#faqAccordion .card-header .btn-link[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+}
+
+#faqAccordion .card-body {
+    padding: 1.5rem;
+}
+
+#faqAccordion .card-body ul {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#faqAccordion .card-body ul li {
+    margin-bottom: 0.5rem;
+}
+
+#faqAccordion .card-body ul ul {
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#faqAccordion .faq-sources {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+}
+
+#faqAccordion .faq-sources li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+#faqAccordion .faq-sources li::before {
+    content: '\f35d';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    color: #6c757d;
+}
+
+#faqAccordion .faq-sources a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+#faqAccordion .faq-sources a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+#faqAccordion hr {
+    border-top: 1px solid #dee2e6;
+    margin: 1.5rem 0;
+}
+
+/* FAQ Header Navigation */
+#header .btn {
+    margin-top: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    #header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    
+    #header .btn {
+        margin-top: 0;
+    }
+}
