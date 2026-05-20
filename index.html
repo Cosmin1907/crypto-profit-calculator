@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Calculate your cryptocurrency profit or loss with our free calculator. Supports multiple assets, fees, and export to CSV format for easy record-keeping." />
+    <meta name="description" content="Free crypto profit loss calculator for estimating gains, losses, current holdings, and portfolio totals using buy price, sell price, investment amount, and optional fees." />
     <meta name="keywords"
         content="Crypto Calculator, profit loss calculator, bitcoin profit calculator, cryptocurrency profit, crypto loss calculation">
     
@@ -24,19 +24,17 @@
     <link rel="canonical" href="https://cryptoprofitlosscalculator.com/" />
     
     <!-- Open Graph / Facebook -->
-    <meta property="og:title" content="Crypto Profit Loss Calculator" />
-    <meta property="og:description" content="Easily calculate your crypto gains or losses. Export your calculations to CSV format for record-keeping." />
-    <meta property="og:image" content="https://cryptoprofitlosscalculator.com/assets/preview.jpg" />
+    <meta property="og:title" content="Crypto Profit Loss Calculator | Free Gains and Losses Tool" />
+    <meta property="og:description" content="Estimate crypto gains, losses, holdings, and portfolio totals with buy price, sell price, investment amount, and optional fees." />
+    <meta property="og:image" content="https://cryptoprofitlosscalculator.com/assets/images/preview.jpg" />
     <meta property="og:url" content="https://cryptoprofitlosscalculator.com/" />
     <meta property="og:type" content="website" />
-    <!-- Replace with actual image URL -->
-    <meta property="og:url" content="https://cryptoprofitlosscalculator.com/assets/preview.jpg">
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Crypto Profit Loss Calculator">
+    <meta name="twitter:title" content="Crypto Profit Loss Calculator | Free Gains and Losses Tool">
     <meta name="twitter:description"
-        content="Quickly figure out your crypto profits or losses. Export to CSV format. Clean, mobile-friendly tool.">
-    <meta name="twitter:image" content="https://cryptoprofitlosscalculator.com/assets/preview.jpg">
+        content="Estimate crypto gains, losses, holdings, and portfolio totals with buy price, sell price, investment amount, and optional fees.">
+    <meta name="twitter:image" content="https://cryptoprofitlosscalculator.com/assets/images/preview.jpg">
     <!-- Basic Schema-->
     <script type="application/ld+json">
         {
@@ -103,7 +101,7 @@
     </script>
     <!-- Favicon -->
     <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
-    <title>Crypto Profit Loss Calculator</title>
+    <title>Crypto Profit Loss Calculator | Free Crypto Gains and Losses Tool</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -120,16 +118,23 @@
         gtag('config', 'G-49CZKTD69C');
     </script>
 </head>
-<header id="header">
-    <h1 class="my-4">Crypto Profit Loss <span class="calc-text">Calculator</span></h1>
-    <img src="/assets/images/favicon-32x32.png" alt="Calculator Icon">
-    <div class="mt-3">
-        <a href="faq.html" class="btn btn-outline-primary">
-            <i class="fas fa-question-circle"></i> FAQ
-        </a>
-    </div>
-</header>
-<body class="container">
+<body class="container site-page">
+    <header id="header" class="site-header">
+        <div class="site-header__intro">
+            <div class="site-branding">
+                <img src="/assets/images/favicon-32x32.png" alt="Calculator icon">
+                <h1>Crypto Profit Loss <span class="calc-text">Calculator</span></h1>
+            </div>
+            <p class="site-lead">Estimate crypto gains, losses, holdings, and portfolio totals with buy price, sell price, investment amount, and optional fees.</p>
+        </div>
+        <nav class="site-nav" aria-label="Primary">
+            <a href="index.html" class="is-active" aria-current="page">Calculator</a>
+            <a href="faq.html">FAQ</a>
+            <a href="privacy.html">Privacy</a>
+        </nav>
+    </header>
+
+    <main class="site-main">
     <div id="cryptoContainer">
         <div class="assetContainer">
             <div class="cryptoRow row mb-2">
@@ -192,10 +197,13 @@
             <i class="fas fa-download"></i> Download CSV
         </button>
     </div>
-    
+
+    <section class="trust-strip" aria-label="Calculator trust note">
+        <p><strong>Calculator only.</strong> No wallet connection or login required.</p>
+    </section>
 
     <div class="summary card my-4">
-        <div class="card-body">
+        <div class="card-body summary__details">
             <h2 class="card-title">Portfolio Summary</h2>
             <hr>
             <p class="card-text">Investment: <span id="totalInvestment" class="text-muted">-</span></p>
@@ -203,24 +211,24 @@
             <p class="card-text">Holdings: <span id="totalHoldings" class="text-muted">-</span></p>
             <p class="card-text">Profit/Loss: <span id="totalProfitLoss" class="text-muted">-</span></p>
         </div>
-        <div class="dashboard">
-            <div class="gear">
-                <div class="gear-label meter-label">N</div>
-                <p>Start your Engine</p>
+        <div class="summary__visual">
+            <div class="dashboard">
+                <div class="gear">
+                    <div class="gear-label meter-label">N</div>
+                    <p>Start your Engine</p>
+                </div>
+            </div>
+            <div class="speedometer">
+                <div class="needle" id="needle"></div>
+                <div class="numbers">
+                    <span style="top: 45%; left: 1%;">0</span>
+                    <span style="top: 1%; left: 43%;">100</span>
+                    <span style="top: 45%; left: 87%;">200</span>
+                </div>
+                <div class="meter-label">N</div>
+                <img src="/assets/images/lamborghini-logo.png" class="logo" alt="Lamborghini Logo">
             </div>
         </div>
-        <div class="speedometer">
-            <div class="needle" id="needle"></div>
-            <div class="numbers">
-                <span style="top: 45%; left: 1%;">0</span> 
-                <span style="top: 1%; left: 43%;">100</span> 
-                <span style="top: 45%; left: 87%;">200</span> 
-            </div>
-            <div class="meter-label">N</div>
-            <img src="/assets/images/lamborghini-logo.png" class="logo" alt="Lamborghini Logo">
-            
-        </div>
-        
     </div>
 
     <div class="share">
@@ -234,37 +242,37 @@
         <div id="shareButtons">
             <!-- WhatsApp -->
             <a href="https://wa.me/?text=Check%20this%20Crypto%20Profit%20Loss%20Calculator!%20https%3A%2F%2Fcryptoprofitlosscalculator.com"
-                target="_blank" title="Share on WhatsApp">
+                target="_blank" rel="noopener noreferrer" title="Share on WhatsApp">
                 <i class="fab fa-whatsapp"></i>
             </a>
     
             <!-- Telegram -->
             <a href="https://t.me/share/url?url=https%3A%2F%2Fcryptoprofitlosscalculator.com&text=Check%20out%20this%20Crypto%20Profit%20Loss%20Calculator!"
-                target="_blank" title="Share on Telegram">
+                target="_blank" rel="noopener noreferrer" title="Share on Telegram">
                 <i class="fab fa-telegram"></i>
             </a>
     
             <!-- Facebook -->
             <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcryptoprofitlosscalculator.com"
-                target="_blank" title="Share on Facebook">
+                target="_blank" rel="noopener noreferrer" title="Share on Facebook">
                 <i class="fab fa-facebook"></i>
             </a>
     
             <!-- Facebook Messenger -->
-            <a href="fb-messenger://share?link=https%3A%2F%2Fcryptoprofitlosscalculator.com" target="_blank"
+            <a href="fb-messenger://share?link=https%3A%2F%2Fcryptoprofitlosscalculator.com" target="_blank" rel="noopener noreferrer"
                 title="Share on Messenger">
                 <i class="fab fa-facebook-messenger"></i>
             </a>
     
             <!-- LinkedIn -->
             <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fcryptoprofitlosscalculator.com"
-                target="_blank" title="Share on LinkedIn">
+                target="_blank" rel="noopener noreferrer" title="Share on LinkedIn">
                 <i class="fab fa-linkedin"></i>
             </a>
     
             <!-- X (Twitter) -->
             <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fcryptoprofitlosscalculator.com&text=Check%20out%20this%20Crypto%20Profit%20Loss%20Calculator!"
-                target="_blank" title="Share on X">
+                target="_blank" rel="noopener noreferrer" title="Share on X">
                 <i class="fab fa-x-twitter"></i>
             </a>
         </div>
@@ -558,8 +566,20 @@
         <a href="#header">Back to top</a>
         </div>
     </div>
-    
-    
+
+    </main>
+
+    <a href="#header" class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+    </a>
+
+    <footer class="site-footer">
+        <nav class="site-footer__nav" aria-label="Footer">
+            <a href="index.html" aria-current="page">Calculator</a>
+            <a href="faq.html">FAQ</a>
+            <a href="privacy.html">Privacy</a>
+        </nav>
+    </footer>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -571,5 +591,18 @@
     <!-- Custom JS -->
     <script src="assets/js/config.js"></script>
     <script src="assets/js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const backToTop = document.getElementById('backToTop');
+            if (!backToTop) return;
+
+            const toggleBackToTop = () => {
+                backToTop.classList.toggle('is-visible', window.scrollY > 260);
+            };
+
+            toggleBackToTop();
+            window.addEventListener('scroll', toggleBackToTop, { passive: true });
+        });
+    </script>
 </body>
 </html>

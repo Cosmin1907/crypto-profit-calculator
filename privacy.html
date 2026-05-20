@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simple privacy information for Crypto Profit Loss Calculator, including analytics usage and third-party market data services." />
+    <meta name="keywords"
+        content="Crypto Profit Loss Calculator privacy, crypto calculator privacy policy, Google Analytics, Firebase, CoinGecko">
+
+    <script>
+        if (window.location.search.length > 0) {
+            var metaRobots = document.createElement('meta');
+            metaRobots.name = 'robots';
+            metaRobots.content = 'noindex, nofollow';
+            document.head.appendChild(metaRobots);
+        }
+    </script>
+
+    <link rel="canonical" href="https://cryptoprofitlosscalculator.com/privacy.html" />
+
+    <meta property="og:title" content="Privacy | Crypto Profit Loss Calculator" />
+    <meta property="og:description" content="Plain-language privacy information for the Crypto Profit Loss Calculator website." />
+    <meta property="og:image" content="https://cryptoprofitlosscalculator.com/assets/images/preview.jpg" />
+    <meta property="og:url" content="https://cryptoprofitlosscalculator.com/privacy.html" />
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Privacy | Crypto Profit Loss Calculator">
+    <meta name="twitter:description" content="Plain-language privacy information for the Crypto Profit Loss Calculator website.">
+    <meta name="twitter:image" content="https://cryptoprofitlosscalculator.com/assets/images/preview.jpg">
+
+    <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+    <title>Privacy | Crypto Profit Loss Calculator</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/d9a77b60d1.js" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-49CZKTD69C"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-49CZKTD69C');
+    </script>
+</head>
+
+<body class="container site-page">
+    <header id="header" class="site-header">
+        <div class="site-header__intro">
+            <div class="site-branding">
+                <img src="/assets/images/favicon-32x32.png" alt="Calculator icon">
+                <h1>Crypto Profit Loss <span class="calc-text">Calculator</span> Privacy</h1>
+            </div>
+            <p class="site-lead">A short, plain-language overview of what this website does and does not collect.</p>
+        </div>
+        <nav class="site-nav" aria-label="Primary">
+            <a href="index.html">Calculator</a>
+            <a href="faq.html">FAQ</a>
+            <a href="privacy.html" class="is-active" aria-current="page">Privacy</a>
+        </nav>
+    </header>
+
+    <main class="site-main">
+        <div class="card my-4">
+            <div class="card-body">
+                <h2 class="card-title mb-3">Privacy</h2>
+                <p class="lead">This website is a simple public calculator operated by an independent developer. It is designed to work without accounts, logins, or wallet connections.</p>
+
+                <h3>What this site does not collect intentionally</h3>
+                <ul>
+                    <li>No account creation</li>
+                    <li>No email collection</li>
+                    <li>No wallet connection</li>
+                    <li>No intentional storage of the calculator values you type into the form</li>
+                </ul>
+
+                <h3>Analytics and basic website usage</h3>
+                <p>Google Analytics is used to understand overall traffic and page usage. This can include standard information such as page views, browser or device details, and similar website usage data.</p>
+
+                <h3>Third-party services used for functionality</h3>
+                <p>The calculator may rely on third-party services such as Firebase and CoinGecko to deliver cached market data and live pricing information needed for the tool to work.</p>
+
+                <h3>Updates</h3>
+                <p>If this page changes in a meaningful way, the date below will be updated.</p>
+                <p class="privacy-updated"><strong>Last updated:</strong> May 20, 2026</p>
+            </div>
+        </div>
+    </main>
+
+    <a href="#header" class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+    </a>
+
+    <footer class="site-footer">
+        <nav class="site-footer__nav" aria-label="Footer">
+            <a href="index.html">Calculator</a>
+            <a href="faq.html">FAQ</a>
+            <a href="privacy.html" aria-current="page">Privacy</a>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const backToTop = document.getElementById('backToTop');
+            if (!backToTop) return;
+
+            const toggleBackToTop = () => {
+                backToTop.classList.toggle('is-visible', window.scrollY > 260);
+            };
+
+            toggleBackToTop();
+            window.addEventListener('scroll', toggleBackToTop, { passive: true });
+        });
+    </script>
+</body>
+
+</html>
